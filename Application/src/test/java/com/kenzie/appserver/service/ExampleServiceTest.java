@@ -18,7 +18,7 @@ public class ExampleServiceTest {
     private ExampleRepository exampleRepository;
     private ExampleService exampleService;
     private LambdaServiceClient lambdaServiceClient;
-
+    // this is a dan comment test for github
     @BeforeEach
     void setup() {
         exampleRepository = mock(ExampleRepository.class);
