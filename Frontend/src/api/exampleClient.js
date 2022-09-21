@@ -10,7 +10,7 @@ import axios from 'axios'
  * https://javascript.info/mixins
  */
 
-// Ky is here to work on this :D part 1 commit
+// Ky is here to work on this :D
 export default class ExampleClient extends BaseClass {
 
     constructor(props = {}){
