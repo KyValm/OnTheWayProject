@@ -6,7 +6,7 @@ public class Item {
     private int currentQty;
     private int reorderQty;
     private int qtyTrigger;
-    private String onTheWay; //status if order request triggered
+    private String onTheWay;
 
     public Item(String itemId,
                 String description,
