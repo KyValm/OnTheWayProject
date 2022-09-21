@@ -1,26 +1,28 @@
 package com.kenzie.appserver.service.model;
 
+import java.util.Date;
+
 public class ItemPOJO {
     private final String itemId;
     private final String description;
     private int currentQty;
-    private int reorderQty;
-    private int qtyTrigger;
-    private String onTheWay; //status if order request triggered -> "last reorder 09/21/2022"
+    private int reorderQty; // Purchase Order Qty
+    private int qtyTrigger; // ReOrder Point
+    private OrderDate orderDate;  // status if order request triggered -> "last reorder 09/21/2022"
 
     public ItemPOJO(String itemId,
                 String description,
                 int currentQty,
                 int reorderQty,
                 int qtyTrigger,
-                String onTheWay
+                OrderDate orderDate
     ) {
         this.itemId = itemId;
         this.description = description;
         this.currentQty = currentQty;
         this.reorderQty = reorderQty;
         this.qtyTrigger = qtyTrigger;
-        this.onTheWay = onTheWay;
+        this.orderDate = orderDate;
     }
 
     public String getItemId() {
@@ -55,12 +57,12 @@ public class ItemPOJO {
         this.qtyTrigger = qtyTrigger;
     }
 
-    public String getOnTheWay() {
-        return onTheWay;
+    public OrderDate getOnTheWay() {
+        return orderDate;
     }
 
-    public void setOnTheWay(String onTheWay) {
-        this.onTheWay = onTheWay;
+    public void setOnTheWay(OrderDate orderDate) {
+        this.orderDate = orderDate;
     }
 }
 
