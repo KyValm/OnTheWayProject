@@ -3,17 +3,17 @@ package com.kenzie.appserver.service.model;
 public class Item {
     private final String itemId;
     private final String description;
-    private int currentQty;
-    private int reorderQty;
-    private int qtyTrigger;
-    private String onTheWay; //status if order request triggered
+    private String currentQty;
+    private String reorderQty;
+    private String qtyTrigger;
+    private String onTheWay; //status if order request triggered -> "last reorder 09/21/2022"
 
     public Item(String itemId,
                 String description,
-                currentQty,
-                reorderQty,
-                qtyTrigger,
-                onTheWay
+                String currentQty,
+                String reorderQty,
+                String qtyTrigger,
+                String onTheWay
                 ) {
         this.itemId = itemId;
         this.description = description;
