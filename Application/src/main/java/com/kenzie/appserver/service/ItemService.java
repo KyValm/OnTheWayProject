@@ -1,10 +1,11 @@
 package com.kenzie.appserver.service;
 
-import com.amazonaws.services.dynamodbv2.document.Item;
+
 import com.kenzie.appserver.controller.model.ItemResponse;
 import com.kenzie.appserver.repositories.model.ItemRecord;
 import com.kenzie.appserver.repositories.model.ItemRepository;
 
+import com.kenzie.appserver.service.model.Item;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import com.kenzie.capstone.service.model.ItemData;
 import io.prometheus.client.Collector;
@@ -47,7 +48,7 @@ public class ItemService {
         return null;
     }
 
-    public Item addInventoryItem(String description) {
+    public Item addInventoryItem(Item item) {
 //        // Example sending data to the lambda
 //        ItemData dataFromLambda = lambdaServiceClient.setItemData(description);
 //
@@ -67,7 +68,7 @@ public class ItemService {
         return null;
     }
 
-    public void updateItem(String description) {
+    public void updateItem(Item item) {
 //        // Example sending data to the lambda
 //        ItemData dataFromLambda = lambdaServiceClient.setItemData(description);
 //
@@ -111,4 +112,8 @@ public class ItemService {
         return null;
     }
 
+    public List<Item> getItemsThatNeedOrder(){
+
+        return null;
+    }
 }
