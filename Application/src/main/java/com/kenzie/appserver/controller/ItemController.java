@@ -33,7 +33,6 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<ItemResponse> addInventoryItem(@RequestBody ItemCreateRequest itemCreateRequest) {
-
         return null;
     }
 
