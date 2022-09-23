@@ -146,6 +146,7 @@ public class ItemController {
     // #################################################################################################################
     // Helper methods go here
     // -----------------------------------------------------------------------------------------------------------------
+    // This method supports optional method usage, otherwise it's not needed if optionals not used
     private ItemResponse convertItemToItemResponse(Item item) {
         return new ItemResponse(item);
     }
