@@ -122,9 +122,9 @@ public class ItemController {
     }
 
     @GetMapping("/reorderNeed")
-    public ResponseEntity<List<ItemResponse>> getItemsThatNeedOrder(){
+    public ResponseEntity<List<ItemResponse>> getPriorityList(){
         // Grab that list of items that need to be reordered
-        List<Item> response = itemService.getItemsThatNeedOrder();
+        List<Item> response = itemService.getPriorityList();
 
         // Sniff check it
         if(response == null || response.isEmpty()){

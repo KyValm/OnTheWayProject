@@ -29,6 +29,8 @@ public class ItemService {
 
     public Item getItemByID(String itemId) {
 
+        //check for cache
+
 //        // Example getting data from the lambda
 //        ItemData dataFromLambda = lambdaServiceClient.getItemData(itemId);
 //
@@ -49,6 +51,8 @@ public class ItemService {
     }
 
     public Item addInventoryItem(Item item) {
+        // clear cache
+
 //        // Example sending data to the lambda
 //        ItemData dataFromLambda = lambdaServiceClient.setItemData(description);
 //
@@ -69,6 +73,8 @@ public class ItemService {
     }
 
     public void updateItem(Item item) {
+        // clear cache
+
 //        // Example sending data to the lambda
 //        ItemData dataFromLambda = lambdaServiceClient.setItemData(description);
 //
@@ -87,6 +93,9 @@ public class ItemService {
 
 
     public List<Item> getAllInventoryItems(){
+
+        //check for cache
+
 //        List<Item> itemsFromDynamo = itemRepository.findAll().
 //
 //                forEach(itemRecord -> {item -> new Item(itemRecord.getItemId(),
@@ -104,15 +113,30 @@ public class ItemService {
     }
 
     public void deleteByItemID(String itemId) {
-
+        // clear cache
     }
 
     public List<Item> createSampleItemList() {
+        // pulling from preloaded data table csv
 
         return null;
     }
 
-    public List<Item> getItemsThatNeedOrder(){
+    public List<Item> getPriorityList(){
+
+        //call get all items // throws to Lambda to analyze gives list
+
+        // 1. takes in all Items
+
+        // 2. reduces list to only things that need to be ordered today
+
+        // 3. PO qty instances (ex. inventory really load, multiple of PO qty
+
+        // 4. sort qty array by instances (effectively giving priority status to most depleted)
+
+        // 5. call update item on each item
+
+        // return everything from step 4
 
         return null;
     }

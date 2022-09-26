@@ -1,19 +1,21 @@
 package com.kenzie.appserver.service.model;
 
+import java.util.Date;
+
 public class Item {
     private final String itemId;
     private final String description;
     private int currentQty;
     private int reorderQty; // Purchase Order Qty
     private int qtyTrigger; // ReOrder Point
-    private OrderDate orderDate;  // status if order request triggered -> "last reorder 09/21/2022"
+    private String orderDate;  // status if order request triggered -> "last reorder 09/21/2022"
 
     public Item(String itemId,
                 String description,
                 int currentQty,
                 int reorderQty,
                 int qtyTrigger,
-                OrderDate orderDate // OrderDate Class needs creating
+                String orderDate // OrderDate Class needs creating
     ) {
         this.itemId = itemId;
         this.description = description;
@@ -55,11 +57,11 @@ public class Item {
         this.qtyTrigger = qtyTrigger;
     }
 
-    public OrderDate getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
-    }
+    } // planned order date
 
-    public void setOrderDate(OrderDate orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 }

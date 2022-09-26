@@ -18,7 +18,7 @@ public class ItemResponse {
     @JsonProperty("qtyTrigger")
     private int qtyTrigger;
     @JsonProperty("orderDate")
-    private OrderDate orderDate;
+    private String orderDate;
 
     public ItemResponse(Item item){
         this.itemId = item.getItemId();
@@ -69,11 +69,11 @@ public class ItemResponse {
         this.qtyTrigger = qtyTrigger;
     }
 
-    public OrderDate getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(OrderDate orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 }

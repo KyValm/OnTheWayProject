@@ -19,7 +19,7 @@ public class ItemUpdateRequest {
     @JsonProperty("qtyTrigger")
     private int qtyTrigger;
     @JsonProperty("orderDate")
-    private OrderDate orderDate;
+    private String orderDate;
 
     public ItemUpdateRequest(Item item){
         this.itemId = item.getItemId();
@@ -70,11 +70,11 @@ public class ItemUpdateRequest {
         this.qtyTrigger = qtyTrigger;
     }
 
-    public OrderDate getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(OrderDate orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 }
