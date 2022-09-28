@@ -20,6 +20,10 @@ public class ItemResponse {
     @JsonProperty("orderDate")
     private String orderDate;
 
+    public ItemResponse(){
+
+    }
+
     public ItemResponse(Item item){
         this.itemId = item.getItemId();
         this.description = item.getDescription();

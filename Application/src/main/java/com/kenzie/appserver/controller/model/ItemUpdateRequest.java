@@ -21,6 +21,10 @@ public class ItemUpdateRequest {
     @JsonProperty("orderDate")
     private String orderDate;
 
+    public ItemUpdateRequest(){
+
+    }
+
     public ItemUpdateRequest(Item item){
         this.itemId = item.getItemId();
         this.description = item.getDescription();
