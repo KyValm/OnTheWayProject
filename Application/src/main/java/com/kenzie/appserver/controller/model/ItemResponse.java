@@ -12,11 +12,11 @@ public class ItemResponse {
     @JsonProperty("description")
     private String description;
     @JsonProperty("currentQty")
-    private int currentQty;
+    private String currentQty;
     @JsonProperty("reorderQty")
-    private int reorderQty;
+    private String reorderQty;
     @JsonProperty("qtyTrigger")
-    private int qtyTrigger;
+    private String qtyTrigger;
     @JsonProperty("orderDate")
     private String orderDate;
 
@@ -45,27 +45,27 @@ public class ItemResponse {
         this.description = description;
     }
 
-    public int getCurrentQty() {
+    public String getCurrentQty() {
         return currentQty;
     }
 
-    public void setCurrentQty(int currentQty) {
+    public void setCurrentQty(String currentQty) {
         this.currentQty = currentQty;
     }
 
-    public int getReorderQty() {
+    public String getReorderQty() {
         return reorderQty;
     }
 
-    public void setReorderQty(int reorderQty) {
+    public void setReorderQty(String reorderQty) {
         this.reorderQty = reorderQty;
     }
 
-    public int getQtyTrigger() {
+    public String getQtyTrigger() {
         return qtyTrigger;
     }
 
-    public void setQtyTrigger(int qtyTrigger) {
+    public void setQtyTrigger(String qtyTrigger) {
         this.qtyTrigger = qtyTrigger;
     }
 
