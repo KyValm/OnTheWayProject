@@ -2,7 +2,7 @@
 
 # Fill out the following values
 # The path of your repo on github. Don't include the whole URL, just the part after github.com/KenzieAcademy-SoftwareEngineering/
-export CAPSTONE_REPO_NAME=ata-capstone-project-bestjavaprogrammer
+export CAPSTONE_REPO_NAME=ata-capstone-project-DanJSun
 
 # Fill out the following value with the group name in all lowercase and no spaces or special characters.
 export GITHUB_GROUP_NAME=ontheway
