@@ -5,7 +5,7 @@
 export CAPSTONE_REPO_NAME=ata-capstone-project-bestjavaprogrammer
 
 # Fill out the following value with the group name in all lowercase and no spaces or special characters.
-export GITHUB_GROUP_NAME=REPLACE_WITH_YOUR_GROUP_NAME
+export GITHUB_GROUP_NAME=ontheway
 
 # Step Two - configure your shell to always have these variables.
 # For OSX / Linux
