@@ -1,6 +1,8 @@
 package com.kenzie.appserver.service;
 
 
+import com.kenzie.appserver.config.CacheClient;
+import com.kenzie.appserver.controller.helper.HelperItemCreation;
 import com.kenzie.appserver.repositories.ItemRepository;
 
 import com.kenzie.appserver.repositories.model.ItemRecord;
@@ -16,10 +18,12 @@ import java.util.Optional;
 public class ItemService {
     private ItemRepository itemRepository;
     private LambdaServiceClient lambdaServiceClient;
+    // private CacheClient cacheClient;
 
-    public ItemService(ItemRepository itemRepository, LambdaServiceClient lambdaServiceClient) {
+    public ItemService(ItemRepository itemRepository, LambdaServiceClient lambdaServiceClient) { // CacheClient cacheClient
         this.itemRepository = itemRepository;
         this.lambdaServiceClient = lambdaServiceClient;
+        //this.cacheClient = cacheClient;
     }
 
     public Item getItemByID(String itemId) {
@@ -85,8 +89,7 @@ public class ItemService {
 
     public List<Item> createSampleItemList() {
         // pulling from preloaded data table csv
-
-        return null;
+        return HelperItemCreation.createSampleSongList();
     }
 
     public List<Item> getPriorityList(){
