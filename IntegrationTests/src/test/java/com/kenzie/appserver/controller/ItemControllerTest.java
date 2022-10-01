@@ -1,15 +1,11 @@
 package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.IntegrationTest;
-import com.kenzie.appserver.controller.model.ExampleCreateRequest;
 import com.kenzie.appserver.controller.model.ItemCreateRequest;
 import com.kenzie.appserver.controller.model.ItemUpdateRequest;
-import com.kenzie.appserver.service.ExampleService;
 import com.kenzie.appserver.service.ItemService;
-import com.kenzie.appserver.service.model.Example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kenzie.appserver.service.model.Item;
 import net.andreinc.mockneat.MockNeat;
 import org.junit.jupiter.api.Test;
@@ -24,14 +20,13 @@ import java.util.UUID;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @IntegrationTest
-class ExampleControllerTest {
+class ItemControllerTest {
     @Autowired
     private MockMvc mvc;
 

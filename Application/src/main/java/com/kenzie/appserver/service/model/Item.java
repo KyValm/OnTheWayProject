@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Item {
     private final String itemId;
-    private final String description;
+    private String description;
     private String currentQty;
     private String reorderQty; // Purchase Order Qty
     private String qtyTrigger; // ReOrder Point
@@ -31,6 +31,10 @@ public class Item {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getCurrentQty() {

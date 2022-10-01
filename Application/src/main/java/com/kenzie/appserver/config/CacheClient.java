@@ -11,6 +11,7 @@ public class CacheClient {
     private Cache<String, Item> cache;
 
     // Thanks for help from Justin's group on this cache Constructor
+
     public CacheClient(int expireTime, TimeUnit timeUnit) {
         this.cache = CacheBuilder.newBuilder()
                 .expireAfterWrite(expireTime, timeUnit)
