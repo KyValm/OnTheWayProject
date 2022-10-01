@@ -89,7 +89,7 @@ public class ItemService {
         return null;
     }
 
-    public List<Item> getPriorityList(){
+    public List<Item>  getPriorityList(){
 
         //call get all items // throws to Lambda to analyze gives list
 

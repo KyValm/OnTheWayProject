@@ -30,7 +30,7 @@ public class ExampleServiceTest {
      *  ------------------------------------------------------------------------ **/
 
     @Test
-    void findById() {
+    void getItemById() {
         // GIVEN
         String id = randomUUID().toString();
 
