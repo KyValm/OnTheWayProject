@@ -1,6 +1,8 @@
 package com.kenzie.appserver.service;
 
 
+import com.kenzie.appserver.config.CacheClient;
+import com.kenzie.appserver.controller.helper.HelperItemCreation;
 import com.kenzie.appserver.repositories.ItemRepository;
 
 import com.kenzie.appserver.repositories.model.ItemRecord;
@@ -16,22 +18,30 @@ import java.util.Optional;
 public class ItemService {
     private ItemRepository itemRepository;
     private LambdaServiceClient lambdaServiceClient;
+    private CacheClient cacheClient;
 
-    public ItemService(ItemRepository itemRepository, LambdaServiceClient lambdaServiceClient) {
+    public ItemService(ItemRepository itemRepository, LambdaServiceClient lambdaServiceClient, CacheClient cacheClient) {
         this.itemRepository = itemRepository;
         this.lambdaServiceClient = lambdaServiceClient;
+        this.cacheClient = cacheClient;
     }
 
     public Item getItemByID(String itemId) {
         // Check Cache if it has it
-        // TODO - Implement me!
+        Item cacheItem = cacheClient.get(itemId);
+
+        if(cacheItem != null) {
+            return cacheItem;
+        }
 
         // If it's not in the cache, call it from API then add it to the cache
         Iterable<ItemRecord> response = itemRepository.findAll();
 
         for(ItemRecord entry : response){
             if(entry.getItemId().equals(itemId)){
-                return createItem(entry);
+                Item results = createItem(entry);
+                cacheClient.add(results.getItemId(),results);
+                return results;
             }
         }
 
@@ -40,9 +50,6 @@ public class ItemService {
     }
 
     public Item addInventoryItem(Item item) {
-        // Clear Cache
-        // TODO - Implement me!
-
         // Action it
         itemRepository.save(createItemRecord(item));
 
@@ -52,7 +59,9 @@ public class ItemService {
 
     public void updateItem(Item item) {
         // Clear Cache
-        // TODO - Implement me!
+        if(cacheClient.get(item.getItemId()) != null){
+            cacheClient.evict(item.getItemId());
+        }
 
         // Action it
         if(itemRepository.existsById(item.getItemId())){
@@ -62,9 +71,6 @@ public class ItemService {
 
 
     public List<Item> getAllInventoryItems(){
-        // Check Cache if it has it
-        // TODO - Implement me!
-
         // Action it and add it to the cache
         Iterable<ItemRecord> response = itemRepository.findAll();
 
@@ -77,7 +83,9 @@ public class ItemService {
 
     public void deleteByItemID(String itemId) {
         // Clear Cache
-        // TODO - Implement me!
+        if(cacheClient.get(itemId) != null){
+            cacheClient.evict(itemId);
+        }
 
         // Action it
         itemRepository.deleteById(itemId);
@@ -85,8 +93,7 @@ public class ItemService {
 
     public List<Item> createSampleItemList() {
         // pulling from preloaded data table csv
-
-        return null;
+        return HelperItemCreation.createSampleSongList();
     }
 
     public List<Item>  getPriorityList(){
