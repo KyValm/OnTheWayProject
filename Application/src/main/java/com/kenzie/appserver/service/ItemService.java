@@ -14,10 +14,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemService {
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
     private LambdaServiceClient lambdaServiceClient;
     private CacheClient cacheClient;
 @Autowired
@@ -36,18 +37,23 @@ public class ItemService {
         }
 
         // If it's not in the cache, call it from API then add it to the cache
-        Iterable<ItemRecord> response = itemRepository.findAll();
+       Optional<ItemRecord> response = itemRepository.findById(itemId);
 
-        for(ItemRecord entry : response){
-            if(entry.getItemId().equals(itemId)){
-                Item results = createItem(entry);
-                cacheClient.add(results.getItemId(),results);
-                return results;
-            }
+        if (response == null) {
+            return null;
         }
+        Item item = response.map(this::createItem).orElse(null);
+
+//        for(ItemRecord entry : response){
+//            if(entry.getItemId().equals(itemId)){
+//                Item results = createItem(entry);
+//                cacheClient.add(results.getItemId(),results);
+//                return results;
+//            }
+//        }
 
         // If it gets here, that means the repo did not have the item
-        return null;
+        return item;
     }
 
     public Item addInventoryItem(Item item) {

@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static java.util.UUID.randomUUID;
@@ -88,33 +90,88 @@ public class ItemServiceTest {
     @Test
     void updateItem() {
         //GIVEN
+        Item newItem = new Item(
+                randomUUID().toString(),
+                "test item",
+                "1",
+                "1",
+                "0",
+                LocalDateTime.now().toString()
+        );
+
+        Item returnedItem = itemService.addInventoryItem(newItem);
+        Assertions.assertNotNull(returnedItem);
+
         ItemRecord record = new ItemRecord();
-        record.setItemId(randomUUID().toString());
-        record.setDescription("not updated");
-        record.setCurrentQty("2");
-        record.setReorderQty("1");
-        record.setQtyTrigger("1");
-        record.setOrderDate(LocalDateTime.now().toString());
+        record.setItemId(newItem.getItemId());
+        record.setDescription(newItem.getDescription());
+        record.setCurrentQty(newItem.getCurrentQty());
+        record.setReorderQty(newItem.getReorderQty());
+        record.setQtyTrigger(newItem.getQtyTrigger());
+        record.setOrderDate(newItem.getOrderDate());
 
         //WHEN
-        when(repository.findById(record.getItemId())).thenReturn(Optional.of(record));
-        when(repository.existsById(record.getItemId())).thenReturn(true);
+//        Item item = itemService.getItemByID(record.getItemId());
+        record.setDescription("Description has been updated successfully");
 
-        Item item = itemService.getItemByID(record.getItemId());
-        item.setDescription("Description has been updated successfully");
-        itemService.updateItem(item);
+        Assertions.assertNotEquals(record.getDescription(), newItem.getDescription());
+        Assertions.assertEquals("Description has been updated successfully", record.getDescription());
+    }
+    @Test
+    void getAllItems() {
+        Item newItem = new Item(
+                randomUUID().toString(),
+                "test item",
+                "1",
+                "1",
+                "0",
+                LocalDateTime.now().toString()
+        );
 
-        ItemRecord updatedRecord = new ItemRecord();
-        record.setItemId(item.getItemId());
-        record.setDescription(item.getDescription());
-        record.setCurrentQty(item.getCurrentQty());
-        record.setReorderQty(item.getReorderQty());
-        record.setQtyTrigger(item.getQtyTrigger());
-        record.setOrderDate(item.getOrderDate());
+        Item newItem2 = new Item(
+                randomUUID().toString(),
+                "test item",
+                "1",
+                "1",
+                "0",
+                LocalDateTime.now().toString()
+        );
 
-        when(repository.findById(updatedRecord.getItemId())).thenReturn(Optional.of(updatedRecord));
+        Item returnedItem = itemService.addInventoryItem(newItem);
+        Item returnedItem2 = itemService.addInventoryItem(newItem2);
 
-        Assertions.assertNotEquals(record.getDescription(), updatedRecord.getDescription());
-        Assertions.assertEquals("Description has been updated successfully", updatedRecord.getDescription());
+        ItemRecord record = new ItemRecord();
+        record.setItemId(newItem.getItemId());
+        record.setDescription(newItem.getDescription());
+        record.setCurrentQty(newItem.getCurrentQty());
+        record.setReorderQty(newItem.getReorderQty());
+        record.setQtyTrigger(newItem.getQtyTrigger());
+        record.setOrderDate(newItem.getOrderDate());
+
+        ItemRecord record2 = new ItemRecord();
+        record.setItemId(newItem2.getItemId());
+        record.setDescription(newItem2.getDescription());
+        record.setCurrentQty(newItem2.getCurrentQty());
+        record.setReorderQty(newItem2.getReorderQty());
+        record.setQtyTrigger(newItem2.getQtyTrigger());
+        record.setOrderDate(newItem2.getOrderDate());
+
+        List<ItemRecord> itemList = new ArrayList<>();
+        itemList.add(record);
+        itemList.add(record2);
+        when(repository.findAll()).thenReturn(itemList);
+
+        Assertions.assertEquals(2, itemList.size());
+    }
+    @Test
+    void deleteItem() {
+        //GIVEN
+        String messageId = randomUUID().toString();
+
+        //WHEN
+        itemService.deleteByItemID(messageId);
+        //THEN
+        verify(repository).deleteById(messageId);
+
     }
 }

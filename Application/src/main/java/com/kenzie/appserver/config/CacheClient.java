@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import java.util.concurrent.TimeUnit;
 
 public class CacheClient {
-    private Cache<String, Item> cache;
+    private final Cache<String, Item> cache;
 
     // Thanks for help from Justin's group on this cache Constructor
 @Inject
