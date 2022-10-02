@@ -5,13 +5,14 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.kenzie.appserver.service.model.Item;
 
+import javax.inject.Inject;
 import java.util.concurrent.TimeUnit;
 
 public class CacheClient {
     private Cache<String, Item> cache;
 
     // Thanks for help from Justin's group on this cache Constructor
-
+@Inject
     public CacheClient(int expireTime, TimeUnit timeUnit) {
         this.cache = CacheBuilder.newBuilder()
                 .expireAfterWrite(expireTime, timeUnit)

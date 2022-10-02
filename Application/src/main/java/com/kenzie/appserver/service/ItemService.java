@@ -8,6 +8,7 @@ import com.kenzie.appserver.repositories.ItemRepository;
 import com.kenzie.appserver.repositories.model.ItemRecord;
 import com.kenzie.appserver.service.model.Item;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class ItemService {
     private ItemRepository itemRepository;
     private LambdaServiceClient lambdaServiceClient;
     private CacheClient cacheClient;
-
+@Autowired
     public ItemService(ItemRepository itemRepository, LambdaServiceClient lambdaServiceClient, CacheClient cacheClient) {
         this.itemRepository = itemRepository;
         this.lambdaServiceClient = lambdaServiceClient;
