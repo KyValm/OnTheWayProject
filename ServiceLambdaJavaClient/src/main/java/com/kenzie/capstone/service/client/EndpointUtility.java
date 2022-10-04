@@ -27,6 +27,10 @@ public class EndpointUtility {
         if (deploymentName == null) {
             deploymentName = System.getenv("STACK_NAME");
         }
+        // insert logic check
+        if(deploymentName == null){
+            deploymentName = "capstone-ontheway-service-dev";
+        }
         if (deploymentName == null) {
             throw new IllegalArgumentException("Could not find the deployment name in environment variables.  Make sure that you have set up your environment variables using the setupEnvironment.sh script.");
         }
