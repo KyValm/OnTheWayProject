@@ -36,14 +36,14 @@ public class ExampleController {
         return ResponseEntity.ok(exampleResponse);
     }
 
-    @PostMapping
-    public ResponseEntity<ExampleResponse> addNewExample(@RequestBody ExampleCreateRequest exampleCreateRequest) {
-        Example example = exampleService.addNewExample(exampleCreateRequest.getName());
-
-        ExampleResponse exampleResponse = new ExampleResponse();
-        exampleResponse.setId(example.getId());
-        exampleResponse.setName(example.getName());
-
-        return ResponseEntity.ok(exampleResponse);
-    }
+//    @PostMapping
+//    public ResponseEntity<ExampleResponse> addNewExample(@RequestBody ExampleCreateRequest exampleCreateRequest) {
+//        Example example = exampleService.addNewExample(exampleCreateRequest.getName());
+//
+//        ExampleResponse exampleResponse = new ExampleResponse();
+//        exampleResponse.setId(example.getId());
+//        exampleResponse.setName(example.getName());
+//
+//        return ResponseEntity.ok(exampleResponse);
+//    }
 }

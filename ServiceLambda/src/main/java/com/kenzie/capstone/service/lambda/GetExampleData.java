@@ -11,6 +11,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kenzie.capstone.service.model.ItemData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,7 +46,7 @@ public class GetExampleData implements RequestHandler<APIGatewayProxyRequestEven
         }
 
         try {
-            ExampleData exampleData = lambdaService.getExampleData(id);
+            ItemData exampleData = lambdaService.getExampleData(id);
             String output = gson.toJson(exampleData);
 
             return response

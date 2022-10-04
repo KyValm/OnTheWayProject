@@ -1,38 +1,22 @@
-package com.kenzie.appserver.controller.model;
+package com.kenzie.capstone.service.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kenzie.appserver.service.model.Item;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
-import javax.validation.constraints.NotEmpty;
+import java.util.Objects;
 
-public class ItemCreateRequest {
-    @NotEmpty
-    @JsonProperty("itemId")
+@DynamoDBTable(tableName = "LambdaItems") //?
+public class ItemRecord {
     private String itemId;
-    @JsonProperty("description")
     private String description;
-    @JsonProperty("currentQty")
     private String currentQty;
-    @JsonProperty("reorderQty")
     private String reorderQty;
-    @JsonProperty("qtyTrigger")
     private String qtyTrigger;
-    @JsonProperty("orderDate")
-    private String orderDate;
+    private String orderDate; // status if ordered triggered
 
-    public ItemCreateRequest(){
 
-    }
-
-    public ItemCreateRequest(Item item){
-        this.itemId = item.getItemId();
-        this.description = item.getDescription();
-        this.currentQty = item.getCurrentQty();
-        this.reorderQty = item.getReorderQty();
-        this.qtyTrigger = item.getQtyTrigger();
-        this.orderDate = item.getOrderDate();
-    }
-
+    @DynamoDBHashKey(attributeName = "ItemId")
     public String getItemId() {
         return itemId;
     }
@@ -41,6 +25,7 @@ public class ItemCreateRequest {
         this.itemId = itemId;
     }
 
+    @DynamoDBAttribute(attributeName = "Description")
     public String getDescription() {
         return description;
     }
@@ -49,6 +34,7 @@ public class ItemCreateRequest {
         this.description = description;
     }
 
+    @DynamoDBAttribute(attributeName = "CurrentQty")
     public String getCurrentQty() {
         return currentQty;
     }
@@ -57,6 +43,7 @@ public class ItemCreateRequest {
         this.currentQty = currentQty;
     }
 
+    @DynamoDBAttribute(attributeName = "ReorderQty")
     public String getReorderQty() {
         return reorderQty;
     }
@@ -65,6 +52,7 @@ public class ItemCreateRequest {
         this.reorderQty = reorderQty;
     }
 
+    @DynamoDBAttribute(attributeName = "QtyTrigger")
     public String getQtyTrigger() {
         return qtyTrigger;
     }
@@ -73,11 +61,16 @@ public class ItemCreateRequest {
         this.qtyTrigger = qtyTrigger;
     }
 
+    @DynamoDBAttribute(attributeName = "OrderDate")
     public String getOrderDate() {
         return orderDate;
     }
 
     public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
+    }
+
+
+    public void setItemData(String data) {
     }
 }

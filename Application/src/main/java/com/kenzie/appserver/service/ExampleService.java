@@ -21,7 +21,7 @@ public class ExampleService {
     public Example findById(String id) {
 
         // Example getting data from the lambda
-        ExampleData dataFromLambda = lambdaServiceClient.getExampleData(id);
+//        ExampleData dataFromLambda = lambdaServiceClient.getExampleData(id);  // reusing lambdaServiceClient
 
         // Example getting data from the local repository
         Example dataFromDynamo = exampleRepository
@@ -32,17 +32,17 @@ public class ExampleService {
         return dataFromDynamo;
     }
 
-    public Example addNewExample(String name) {
-        // Example sending data to the lambda
-        ExampleData dataFromLambda = lambdaServiceClient.setExampleData(name);
-
-        // Example sending data to the local repository
-        ExampleRecord exampleRecord = new ExampleRecord();
-        exampleRecord.setId(dataFromLambda.getId());
-        exampleRecord.setName(dataFromLambda.getData());
-        exampleRepository.save(exampleRecord);
-
-        Example example = new Example(dataFromLambda.getId(), name);
-        return example;
-    }
+//    public Example addNewExample(String name) {
+//        // Example sending data to the lambda
+//        ExampleData dataFromLambda = lambdaServiceClient.setExampleData(name);
+//
+//        // Example sending data to the local repository
+//        ExampleRecord exampleRecord = new ExampleRecord();
+//        exampleRecord.setId(dataFromLambda.getId());
+//        exampleRecord.setName(dataFromLambda.getData());
+//        exampleRepository.save(exampleRecord);
+//
+//        Example example = new Example(dataFromLambda.getId(), name);
+//        return example;
+//    }
 }

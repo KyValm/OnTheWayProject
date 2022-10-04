@@ -1,28 +1,26 @@
 package com.kenzie.appserver.service;
 
 
-import com.kenzie.appserver.config.CacheClient;
 import com.kenzie.appserver.controller.helper.HelperItemCreation;
 import com.kenzie.appserver.repositories.ItemRepository;
 
 import com.kenzie.appserver.repositories.model.ItemRecord;
 import com.kenzie.appserver.service.model.Item;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.kenzie.capstone.service.model.ItemData;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ItemService {
-    private final ItemRepository itemRepository;
+    private ItemRepository itemRepository;
     private LambdaServiceClient lambdaServiceClient;
-    private CacheClient cacheClient;
 
-@   Autowired
+
+    // private CacheClient cacheClient;
+
     public ItemService(ItemRepository itemRepository, LambdaServiceClient lambdaServiceClient) { // CacheClient cacheClient
         this.itemRepository = itemRepository;
         this.lambdaServiceClient = lambdaServiceClient;
@@ -31,33 +29,32 @@ public class ItemService {
 
     public Item getItemByID(String itemId) {
         // Check Cache if it has it
+
         //Item cacheItem = cacheClient.get(itemId);
 
         //if(cacheItem != null) {
         //    return cacheItem;
         //}
 
+
+
         // If it's not in the cache, call it from API then add it to the cache
-       Optional<ItemRecord> response = itemRepository.findById(itemId);
+        Iterable<ItemRecord> response = itemRepository.findAll();
 
-        if (response == null) {
-            return null;
+        for(ItemRecord entry : response){
+            if(entry.getItemId().equals(itemId)){
+                return createItem(entry);
+            }
         }
-        Item item = response.map(this::createItem).orElse(null);
-
-//        for(ItemRecord entry : response){
-//            if(entry.getItemId().equals(itemId)){
-//                Item results = createItem(entry);
-//                cacheClient.add(results.getItemId(),results);
-//                return results;
-//            }
-//        }
 
         // If it gets here, that means the repo did not have the item
-        return item;
+        return null;
     }
 
     public Item addInventoryItem(Item item) {
+        // Clear Cache
+        // TODO - Implement me!
+
         // Action it
         itemRepository.save(createItemRecord(item));
 
@@ -67,9 +64,13 @@ public class ItemService {
 
     public void updateItem(Item item) {
         // Clear Cache
+
         //if(cacheClient.get(item.getItemId()) != null){
        //     cacheClient.evict(item.getItemId());
         //}
+
+
+
 
         // Action it
         if(itemRepository.existsById(item.getItemId())){
@@ -79,6 +80,9 @@ public class ItemService {
 
 
     public List<Item> getAllInventoryItems(){
+        // Check Cache if it has it
+        // TODO - Implement me!
+
         // Action it and add it to the cache
         Iterable<ItemRecord> response = itemRepository.findAll();
 
@@ -91,9 +95,12 @@ public class ItemService {
 
     public void deleteByItemID(String itemId) {
         // Clear Cache
+
         //if(cacheClient.get(itemId) != null){
         //    cacheClient.evict(itemId);
         //}
+
+
 
         // Action it
         itemRepository.deleteById(itemId);
@@ -104,23 +111,18 @@ public class ItemService {
         return HelperItemCreation.createSampleSongList();
     }
 
-    public List<Item>  getPriorityList(){
+    public List<Item> getPriorityList(){
+        // throws to Lambda to analyze given list
+         List<Item> priorityList = new ArrayList<>();
 
-        //call get all items // throws to Lambda to analyze gives list
-
-        // 1. takes in all Items
-
-        // 2. reduces list to only things that need to be ordered today
-
-        // 3. PO qty instances (ex. inventory really load, multiple of PO qty
-
-        // 4. sort qty array by instances (effectively giving priority status to most depleted)
-
-        // 5. call update item on each item
-
-        // return everything from step 4
-
-        return null;
+        //update data table with order request qty and date processed by Lambda
+         for(ItemData itemData : lambdaServiceClient.getPriorityListLambda()) {
+             Item item = itemToItemData(itemData);
+             updateItem(item);
+             priorityList.add(item);
+         }
+        // return priority list for ordering party getting priority
+         return priorityList;
     }
 
     // Helper Methods ##################################################################################################
@@ -143,5 +145,14 @@ public class ItemService {
         results.setOrderDate(item.getOrderDate());
         return results;
 
+    }
+    private Item itemToItemData(ItemData item){
+        return new Item(
+                item.getItemId(),
+                item.getDescription(),
+                item.getCurrentQty(),
+                item.getReorderQty(),
+                item.getQtyTrigger(),
+                item.getOrderDate());
     }
 }

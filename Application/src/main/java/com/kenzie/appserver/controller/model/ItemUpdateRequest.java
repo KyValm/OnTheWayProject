@@ -2,7 +2,6 @@ package com.kenzie.appserver.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kenzie.appserver.service.model.Item;
-import com.kenzie.appserver.service.model.OrderDate;
 
 import javax.validation.constraints.NotEmpty;
 

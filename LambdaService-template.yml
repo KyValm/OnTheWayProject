@@ -10,9 +10,9 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
-      Handler: com.kenzie.capstone.service.lambda.GetExampleData
+      Handler: com.kenzie.capstone.service.lambda.GetItemData
       Runtime: java11
-      Description: Get Example Data for given id
+      Description: Get Item Data
       MemorySize: 512
       Timeout: 240
       # Function's execution role
@@ -28,30 +28,30 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /example/{id}
+            Path: /item/all
             Method: get
-  SetExampleDataFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
-      Handler: com.kenzie.capstone.service.lambda.SetExampleData
-      Runtime: java11
-      Description: Set Example Data
-      MemorySize: 512
-      Timeout: 240
-      # Function's execution role
-      Policies:
-        - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
-        - AWSXrayWriteOnlyAccess
-        - AWSLambdaVPCAccessExecutionRole
-        - AmazonS3FullAccess
-        - AmazonDynamoDBFullAccess
-      Tracing: Active
-      Events:
-        UpdateResource:
-          Type: Api
-          Properties:
-            Path: /example/
-            Method: post
+#  SetExampleDataFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+#      Handler: com.kenzie.capstone.service.lambda.SetExampleData
+#      Runtime: java11
+#      Description: Set Example Data
+#      MemorySize: 512
+#      Timeout: 240
+#      # Function's execution role
+#      Policies:
+#        - AWSLambdaBasicExecutionRole
+#        - AWSLambda_ReadOnlyAccess
+#        - AWSXrayWriteOnlyAccess
+#        - AWSLambdaVPCAccessExecutionRole
+#        - AmazonS3FullAccess
+#        - AmazonDynamoDBFullAccess
+#      Tracing: Active
+#      Events:
+#        UpdateResource:
+#          Type: Api
+#          Properties:
+#            Path: /example/
+#            Method: post
 
