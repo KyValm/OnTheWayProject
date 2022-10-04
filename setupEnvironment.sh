@@ -5,7 +5,7 @@
 export CAPSTONE_REPO_NAME=ata-capstone-project-DanJSun
 
 # Fill out the following value with the group name in all lowercase and no spaces or special characters.
-export GITHUB_GROUP_NAME=ontheway
+export GITHUB_GROUP_NAME=ontheway1
 
 # Step Two - configure your shell to always have these variables.
 # For OSX / Linux
