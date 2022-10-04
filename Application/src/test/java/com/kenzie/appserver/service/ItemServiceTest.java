@@ -33,7 +33,7 @@ public class ItemServiceTest {
     void setup() {
         repository = mock(ItemRepository.class);
         lambdaServiceClient = mock(LambdaServiceClient.class);
-        itemService = new ItemService(repository, lambdaServiceClient, cacheClient);
+        itemService = new ItemService(repository, lambdaServiceClient); // cacheClient)
     }
     /** ------------------------------------------------------------------------
      *  itemService.findById

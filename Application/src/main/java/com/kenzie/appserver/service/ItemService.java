@@ -21,20 +21,21 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private LambdaServiceClient lambdaServiceClient;
     private CacheClient cacheClient;
-@Autowired
-    public ItemService(ItemRepository itemRepository, LambdaServiceClient lambdaServiceClient, CacheClient cacheClient) {
+
+@   Autowired
+    public ItemService(ItemRepository itemRepository, LambdaServiceClient lambdaServiceClient) { // CacheClient cacheClient
         this.itemRepository = itemRepository;
         this.lambdaServiceClient = lambdaServiceClient;
-        this.cacheClient = cacheClient;
+        //this.cacheClient = cacheClient;
     }
 
     public Item getItemByID(String itemId) {
         // Check Cache if it has it
-        Item cacheItem = cacheClient.get(itemId);
+        //Item cacheItem = cacheClient.get(itemId);
 
-        if(cacheItem != null) {
-            return cacheItem;
-        }
+        //if(cacheItem != null) {
+        //    return cacheItem;
+        //}
 
         // If it's not in the cache, call it from API then add it to the cache
        Optional<ItemRecord> response = itemRepository.findById(itemId);
@@ -66,9 +67,9 @@ public class ItemService {
 
     public void updateItem(Item item) {
         // Clear Cache
-        if(cacheClient.get(item.getItemId()) != null){
-            cacheClient.evict(item.getItemId());
-        }
+        //if(cacheClient.get(item.getItemId()) != null){
+       //     cacheClient.evict(item.getItemId());
+        //}
 
         // Action it
         if(itemRepository.existsById(item.getItemId())){
@@ -90,9 +91,9 @@ public class ItemService {
 
     public void deleteByItemID(String itemId) {
         // Clear Cache
-        if(cacheClient.get(itemId) != null){
-            cacheClient.evict(itemId);
-        }
+        //if(cacheClient.get(itemId) != null){
+        //    cacheClient.evict(itemId);
+        //}
 
         // Action it
         itemRepository.deleteById(itemId);

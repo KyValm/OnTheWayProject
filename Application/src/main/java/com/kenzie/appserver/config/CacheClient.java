@@ -12,7 +12,7 @@ public class CacheClient {
     private final Cache<String, Item> cache;
 
     // Thanks for help from Justin's group on this cache Constructor
-@Inject
+    @Inject
     public CacheClient(int expireTime, TimeUnit timeUnit) {
         this.cache = CacheBuilder.newBuilder()
                 .expireAfterWrite(expireTime, timeUnit)
