@@ -28,20 +28,20 @@ public class HelperItemCreation {
                 String itemId = entry[0];
                 itemId = itemId.replaceAll("^\"|\"$", "");
 
-                String description = entry[1];
-                description = description.replaceAll("^\"|\"$", "");
-
-                String currentQty = entry[2];
+                String currentQty = entry[1];
                 currentQty = currentQty.replaceAll("^\"|\"$", "");
 
-                String reorderQty = entry[3];
-                reorderQty = reorderQty.replaceAll("^\"|\"$", "");
+                String description = entry[2];
+                description = description.replaceAll("^\"|\"$", "");
+
+                String orderDate = entry[3];
+                orderDate = orderDate.replaceAll("^\"|\"$", "");
 
                 String qtyTrigger = entry[4];
                 qtyTrigger = qtyTrigger.replaceAll("^\"|\"$", "");
 
-                String orderDate = entry[5];
-                orderDate = orderDate.replaceAll("^\"|\"$", "");
+                String reorderQty = entry[5];
+                reorderQty = reorderQty.replaceAll("^\"|\"$", "");
 
                 Item item = new Item(itemId,
                         description,
@@ -64,7 +64,7 @@ public class HelperItemCreation {
         ArrayList<String[]> results = new ArrayList<>();
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Dan Work\\Desktop\\kenzieATA\\ata-capstone-project-DanJSun\\Application\\src\\main\\java\\com\\kenzie\\appserver\\controller\\helper\\results.csv"));
+            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\ryanr\\Documents\\kenzie\\ata-capstone-project-DanJSun\\Application\\src\\main\\java\\com\\kenzie\\appserver\\controller\\helper\\results.csv"));
 
             String line;
             while ((line = reader.readLine()) != null){

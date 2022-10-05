@@ -34,8 +34,6 @@ public class ItemService {
             return cacheItem;
         }
 
-
-
         // If it's not in the cache, call it from API then add it to the cache
         Iterable<ItemRecord> response = itemRepository.findAll();
 

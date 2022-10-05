@@ -125,7 +125,7 @@ public class ItemController {
     public ResponseEntity<List<ItemResponse>> getPriorityList(){
         // Grab that list of items that need to be reordered
         List<Item> response = itemService.getPriorityList();
-
+        System.out.println("The response given: " + response);
         // Sniff check it
         if(response == null || response.isEmpty()){
             return ResponseEntity.noContent().build();
@@ -137,7 +137,7 @@ public class ItemController {
                 .stream()
                 .map(this::convertItemToItemResponse)
                 .collect(Collectors.toList());
-
+        System.out.println("The Results: " + results);
         // Return it
         return ResponseEntity.ok(results);
     }

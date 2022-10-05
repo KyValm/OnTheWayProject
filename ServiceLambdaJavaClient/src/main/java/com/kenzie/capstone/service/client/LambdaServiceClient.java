@@ -2,6 +2,7 @@ package com.kenzie.capstone.service.client;
 
 import com.amazonaws.services.dynamodbv2.document.Item;
 //import com.kenzie.appserver.service.model.Item;
+import com.amazonaws.services.dynamodbv2.xspec.S;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.model.ItemData;
@@ -29,9 +30,10 @@ public class LambdaServiceClient {
         HashMap<ItemData,Integer> unsortedMap = new HashMap<>(); //Integer = multiplier to represent priority
 
 // this section for updating hashmap with triggered order values for algorithm
+
         for(ItemData itemData : itemDataList) {
             double diff = Double.parseDouble(itemData.getQtyTrigger()) - Double.parseDouble(itemData.getCurrentQty());
-            if(diff * poAccelerator >= Double.parseDouble(itemData.getQtyTrigger()))
+
             if(diff >= 0) {
                 double localAccelerator = Double.parseDouble(itemData.getQtyTrigger()) * poAccelerator;
                 // effectively this calculates that every <x> percentage below qty trigger will be one purchase qty
@@ -55,7 +57,6 @@ public class LambdaServiceClient {
         }
 
         Collections.reverse(priorityList);
-
 
         //do math and filter/sort work on allInventoryItems and return priorityList
 
