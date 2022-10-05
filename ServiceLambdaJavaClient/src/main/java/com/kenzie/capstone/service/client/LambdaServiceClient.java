@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 public class LambdaServiceClient {
     //    private static final String SET_ITEM_ENDPOINT = "example";
     private ObjectMapper mapper;
-    private static final String GET_ITEM_ENDPOINT = "item/all";
-    private double poAccelerator = .30; //purchase trigger for purchasing more than one lot
+//    private static final String GET_ITEM_ENDPOINT = "item/all";
+    private double poAccelerator = .20; //purchase trigger for purchasing more than one lot
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd");
     private LocalDate localDate = LocalDate.now();
 
@@ -24,10 +24,9 @@ public class LambdaServiceClient {
         this.mapper = new ObjectMapper();
     }
 
-    public List<ItemData> getPriorityListLambda() {
-        List<ItemData> itemDataList = getAllInventoryItems();
+    public List<ItemData> getPriorityListLambda(List<ItemData> itemDataList) {
         List<ItemData> priorityList = new ArrayList<>();
-        HashMap<ItemData,Integer> unsortedMap = new HashMap<>();
+        HashMap<ItemData,Integer> unsortedMap = new HashMap<>(); //Integer = multiplier to represent priority
 
 // this section for updating hashmap with triggered order values for algorithm
         for(ItemData itemData : itemDataList) {
@@ -73,19 +72,21 @@ public class LambdaServiceClient {
     return priorityList;
     }
 
-    public List<ItemData> getAllInventoryItems(){
-//    public ItemData getItemData() {
-        EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.getEndpoint(GET_ITEM_ENDPOINT);
+//    public List<ItemData> getAllInventoryItems(){
+//
+//        EndpointUtility endpointUtility = new EndpointUtility();
+//        String response = endpointUtility.getEndpoint(GET_ITEM_ENDPOINT);
+//
+//        List<ItemData> itemDataList = null;
+//        try {
+//            itemDataList = mapper.readValue(response, mapper.getTypeFactory().constructCollectionType(List.class, ItemData.class));
+//        } catch (Exception e) {
+//            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+//        }
+//        return itemDataList;
+//    }
 
-        List<ItemData> itemDataList = null;
-        try {
-            itemDataList = mapper.readValue(response, mapper.getTypeFactory().constructCollectionType(List.class, ItemData.class));
-        } catch (Exception e) {
-            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
-        }
-        return itemDataList;
-    }
+
 
 //    public ItemData setItemData(String data) {
 //        EndpointUtility endpointUtility = new EndpointUtility();

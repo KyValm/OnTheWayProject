@@ -101,16 +101,28 @@ public class ItemService {
 
     public List<Item> getPriorityList(){
         // throws to Lambda to analyze given list
-         List<Item> priorityList = new ArrayList<>();
+        List<Item> priorityList = new ArrayList<>();
+        List<Item> itemList = getAllInventoryItems();
+        List<ItemData> itemDataListToLambda = new ArrayList<>();
 
-        //update data table with order request qty and date processed by Lambda
-         for(ItemData itemData : lambdaServiceClient.getPriorityListLambda()) {
-             Item item = itemToItemData(itemData);
-             updateItem(item);
-             priorityList.add(item);
+
+        //create Data list to be processed by Lambda
+         for(Item item : itemList) {
+             ItemData itemData = itemToItemData(item);
+//             updateItem(item); //
+             itemDataListToLambda.add(itemData);
          }
+
+        List<ItemData> priorityItemDataList = lambdaServiceClient.getPriorityListLambda(itemDataListToLambda);
         // return priority list for ordering party getting priority
-         return priorityList;
+        for(ItemData itemData : priorityItemDataList) {
+            Item item = itemDataToItem(itemData);
+//             updateItem(item); //
+            priorityList.add(item);
+        }
+
+
+        return priorityList;
     }
 
     // Helper Methods ##################################################################################################
@@ -134,8 +146,18 @@ public class ItemService {
         return results;
 
     }
-    private Item itemToItemData(ItemData item){
+    private Item itemDataToItem(ItemData item){
         return new Item(
+                item.getItemId(),
+                item.getDescription(),
+                item.getCurrentQty(),
+                item.getReorderQty(),
+                item.getQtyTrigger(),
+                item.getOrderDate());
+    }
+
+    private ItemData itemToItemData(Item item){
+        return new ItemData(
                 item.getItemId(),
                 item.getDescription(),
                 item.getCurrentQty(),
