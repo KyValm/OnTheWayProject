@@ -24,7 +24,7 @@ public class LambdaServiceClient {
         this.mapper = new ObjectMapper();
     }
 
-    public List<ItemData> getPriorityListLambda(List<ItemData> itemDataList) {
+    public List<ItemData> getPriorityListFromLambda(List<ItemData> itemDataList) {
         List<ItemData> priorityList = new ArrayList<>();
         HashMap<ItemData,Integer> unsortedMap = new HashMap<>(); //Integer = multiplier to represent priority
 

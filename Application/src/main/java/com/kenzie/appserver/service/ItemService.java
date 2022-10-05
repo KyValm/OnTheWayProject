@@ -63,9 +63,6 @@ public class ItemService {
             cacheClient.evict(item.getItemId());
         }
 
-
-
-
         // Action it
         if(itemRepository.existsById(item.getItemId())){
             itemRepository.save(createItemRecord(item));
@@ -103,24 +100,19 @@ public class ItemService {
         // throws to Lambda to analyze given list
         List<Item> priorityList = new ArrayList<>();
         List<Item> itemList = getAllInventoryItems();
-        List<ItemData> itemDataListToLambda = new ArrayList<>();
-
+        List<ItemData> itemDataListForLambda = new ArrayList<>();
 
         //create Data list to be processed by Lambda
-         for(Item item : itemList) {
-             ItemData itemData = itemToItemData(item);
-//             updateItem(item); //
-             itemDataListToLambda.add(itemData);
-         }
+        itemList.forEach(item -> itemDataListForLambda.add(itemToItemData(item)));
 
-        List<ItemData> priorityItemDataList = lambdaServiceClient.getPriorityListLambda(itemDataListToLambda);
+        List<ItemData> priorityItemDataList = lambdaServiceClient.getPriorityListFromLambda(itemDataListForLambda);
         // return priority list for ordering party getting priority
+
         for(ItemData itemData : priorityItemDataList) {
             Item item = itemDataToItem(itemData);
-//             updateItem(item); //
+            updateItem(item);
             priorityList.add(item);
         }
-
 
         return priorityList;
     }
