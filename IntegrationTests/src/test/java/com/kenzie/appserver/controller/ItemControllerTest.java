@@ -107,7 +107,7 @@ class ItemControllerTest {
                 .andExpect(jsonPath("itemId")
                         .exists())
                 .andExpect(jsonPath("description")
-                        .value(is(newItem.getDescription())))
+                        .value(is(item.getDescription())))
                 .andExpect(jsonPath("currentQty")
                         .value(is(newItem.getCurrentQty())))
                 .andExpect(jsonPath("reorderQty")
