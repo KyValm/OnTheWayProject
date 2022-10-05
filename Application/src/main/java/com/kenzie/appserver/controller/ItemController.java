@@ -79,7 +79,7 @@ public class ItemController {
         return ResponseEntity.created(URI.create("/item/" + results.getItemId())).body(results);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteByItemID(@PathVariable("id") String id) {
         // Delete it in the service
         itemService.deleteByItemID(id);

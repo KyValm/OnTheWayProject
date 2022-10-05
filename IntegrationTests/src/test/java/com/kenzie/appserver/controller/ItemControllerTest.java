@@ -133,7 +133,7 @@ class ItemControllerTest {
        Item persistedItem = itemService.addInventoryItem(newItem);
 
         // WHEN
-        mvc.perform(delete("/{id}", persistedItem.getItemId())
+        mvc.perform(delete("/message/delete/{id}", persistedItem.getItemId())
                         .accept(MediaType.APPLICATION_JSON))
                 // THEN
                 .andExpect(status().isNoContent());
