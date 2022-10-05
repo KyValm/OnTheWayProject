@@ -79,10 +79,10 @@ public class ItemController {
         return ResponseEntity.created(URI.create("/item/" + results.getItemId())).body(results);
     }
 
-    @DeleteMapping("/{itemName}")
-    public ResponseEntity deleteByItemID(@PathVariable("itemName") String itemName) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteByItemID(@PathVariable("id") String id) {
         // Delete it in the service
-        itemService.deleteByItemID(itemName);
+        itemService.deleteByItemID(id);
 
         // Return it did so
         return ResponseEntity.noContent().build();

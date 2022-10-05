@@ -116,7 +116,7 @@ class ItemControllerTest {
                         .value(is(newItem.getQtyTrigger())))
                 .andExpect(jsonPath("orderDate")
                         .value(is(newItem.getOrderDate())))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -133,7 +133,7 @@ class ItemControllerTest {
        Item persistedItem = itemService.addInventoryItem(newItem);
 
         // WHEN
-        mvc.perform(delete("/{itemName}", persistedItem.getItemId())
+        mvc.perform(delete("/{id}", persistedItem.getItemId())
                         .accept(MediaType.APPLICATION_JSON))
                 // THEN
                 .andExpect(status().isNoContent());
