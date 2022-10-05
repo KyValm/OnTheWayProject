@@ -163,7 +163,7 @@ class ItemControllerTest {
        Item persistedItem = itemService.addInventoryItem(newItem);
        Item persistedItem2 = itemService.addInventoryItem(newItem2);
 
-        mvc.perform(get("/all")
+        mvc.perform(get("/item/all")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
