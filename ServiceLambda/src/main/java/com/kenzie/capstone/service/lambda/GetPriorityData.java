@@ -42,7 +42,7 @@ public class GetPriorityData implements RequestHandler<APIGatewayProxyRequestEve
 
 
         try {
-            List<ItemData> exampleData = lambdaService.getAllItemData();
+            List<ItemData> exampleData = lambdaService.getPriorityList();
             String output = gson.toJson(exampleData);
 
             return response

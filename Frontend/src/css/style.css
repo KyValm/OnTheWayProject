@@ -20,17 +20,13 @@
     color: var(--secondary-color);
     padding: 0 20px;
 }
-.header.header {
-    color: white;
-    background: white;
-}
 
 .header_home {
     font-size: 36px;
     line-height: 40px;
     height: 100px;
     text-decoration: none;
-    color:  black;
+    color: var(--secondary-color);
 }
 
 .header_nav_link {
