@@ -105,16 +105,10 @@ public class ItemService {
 
     public List<Item> getPriorityList(){
         // throws to Lambda to analyze given list
+        List<ItemData> priorityItemDataList = lambdaServiceClient.getPriorityList();
+
+        // Process it to become item objects, so we can return it + update the local table with such objects
         List<Item> priorityList = new ArrayList<>();
-        List<Item> itemList = getAllInventoryItems();
-        List<ItemData> itemDataListForLambda = new ArrayList<>();
-
-        //create Data list to be processed by Lambda
-        itemList.forEach(item -> itemDataListForLambda.add(itemToItemData(item)));
-
-        List<ItemData> priorityItemDataList = lambdaServiceClient.getPriorityListFromLambda(itemDataListForLambda);
-        // return priority list for ordering party getting priority
-
         for(ItemData itemData : priorityItemDataList) {
             Item item = itemDataToItem(itemData);
             updateItem(item);

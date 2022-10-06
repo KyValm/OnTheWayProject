@@ -23,8 +23,16 @@ module.exports = {
     disableHostCheck: true,
     contentBase: 'packaging_additional_published_artifacts',
     // overlay shows a full-screen overlay in the browser when there are compiler errors or warnings
-    overlay: true
-  },
+ overlay: true,
+        proxy: [
+            {
+                context: [
+                    '/item'
+                ],
+                target: 'http://localhost:5001'
+            }
+        ]
+    },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',

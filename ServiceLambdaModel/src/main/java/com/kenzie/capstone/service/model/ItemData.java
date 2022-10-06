@@ -1,7 +1,11 @@
 package com.kenzie.capstone.service.model;
 
-import java.util.Objects;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+import java.util.Objects;
+@DynamoDBTable(tableName = "LambdaItems")
 public class ItemData {
     private final String itemId;
     private final String description;
@@ -24,43 +28,44 @@ public class ItemData {
         this.qtyTrigger = qtyTrigger;
         this.orderDate = orderDate;
     }
-
+    @DynamoDBHashKey(attributeName = "ItemId")
     public String getItemId() {
         return itemId;
     }
 
+    @DynamoDBAttribute(attributeName = "Description")
     public String getDescription() {
         return description;
     }
 
+    @DynamoDBAttribute(attributeName = "CurrentQty")
     public String getCurrentQty() {
         return currentQty;
     }
-
     public void setCurrentQty(String currentQty) {
         this.currentQty = currentQty;
     }
 
+    @DynamoDBAttribute(attributeName = "ReorderQty")
     public String getReorderQty() {
         return reorderQty;
     }
-
     public void setReorderQty(String reorderQty) {
         this.reorderQty = reorderQty;
     }
 
+    @DynamoDBAttribute(attributeName = "QtyTrigger")
     public String getQtyTrigger() {
         return qtyTrigger;
     }
-
     public void setQtyTrigger(String qtyTrigger) {
         this.qtyTrigger = qtyTrigger;
     }
 
+    @DynamoDBAttribute(attributeName = "OrderDate")
     public String getOrderDate() {
         return orderDate;
     }
-
     public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }

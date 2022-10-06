@@ -29,7 +29,7 @@ public class ItemDao {
         try {
             mapper.save(itemData, new DynamoDBSaveExpression()
                     .withExpected(ImmutableMap.of(
-                            "id",
+                            "ItemId",
                             new ExpectedAttributeValue().withExists(false)
                     )));
         } catch (ConditionalCheckFailedException e) {
@@ -39,10 +39,10 @@ public class ItemDao {
         return itemData;
     }
 
-    public List<ItemRecord> getItemData() {
+    public List<ItemRecord> getAllItemData() {
         ItemRecord itemRecord = new ItemRecord();
-        String id = null;
-        itemRecord.setItemId(id);
+        itemRecord.setItemId("145-1816");
+
 
         DynamoDBQueryExpression<ItemRecord> queryExpression = new DynamoDBQueryExpression<ItemRecord>()
                 .withHashKeyValues(itemRecord)
