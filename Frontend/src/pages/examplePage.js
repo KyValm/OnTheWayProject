@@ -1,6 +1,6 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
-import ItemClient from "../api/itemClient";
+import ExampleClient from "../api/exampleClient";
 
 /**
  * Logic needed for the view playlist page of the website.
@@ -19,7 +19,7 @@ class ExamplePage extends BaseClass {
     async mount() {
         document.getElementById('get-by-id-form').addEventListener('submit', this.onGet);
         document.getElementById('create-form').addEventListener('submit', this.onCreate);
-        this.client = new ItemClient();
+        this.client = new ExampleClient();
 
         this.dataStore.addChangeListener(this.renderExample)
     }
