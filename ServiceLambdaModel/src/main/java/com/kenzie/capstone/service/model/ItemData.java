@@ -7,12 +7,16 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import java.util.Objects;
 @DynamoDBTable(tableName = "LambdaItems")
 public class ItemData {
-    private final String itemId;
-    private final String description;
+    private String itemId;
+    private String description;
     private String currentQty;
     private String reorderQty; // Purchase Order Qty
     private String qtyTrigger; // ReOrder Point
     private String orderDate;  // status if order request triggered -> "last reorder 09/21/2022"
+
+    public ItemData(){
+
+    }
 
     public ItemData(String itemId,
                 String description,
@@ -32,10 +36,16 @@ public class ItemData {
     public String getItemId() {
         return itemId;
     }
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
 
     @DynamoDBAttribute(attributeName = "Description")
     public String getDescription() {
         return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @DynamoDBAttribute(attributeName = "CurrentQty")
