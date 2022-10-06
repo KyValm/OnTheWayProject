@@ -10,9 +10,9 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
-      Handler: com.kenzie.capstone.service.lambda.GetExampleData
+      Handler: com.kenzie.capstone.service.lambda.GetPriorityData
       Runtime: java11
-      Description: Get Item Data
+      Description: Get All Priority Items
       MemorySize: 512
       Timeout: 240
       # Function's execution role

@@ -9,8 +9,10 @@ import com.kenzie.capstone.service.model.ItemRecord;
 
 import javax.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class LambdaService {
 
@@ -21,23 +23,33 @@ public class LambdaService {
         this.itemDao = itemDao;
     }
 
-    public ItemData getExampleData(String id) {
-        List<ItemRecord> records = itemDao.getItemData();
-        if (records.size() > 0) {
-            return new ItemData(records.get(0).getItemId(),
-                    records.get(0).getDescription(),
-                    records.get(0).getCurrentQty(),
-                    records.get(0).getReorderQty(),
-                    records.get(0).getQtyTrigger(),
-                    records.get(0).getOrderDate()
-                    );
+    public List<ItemData> getAllItemData() {
+        List<ItemRecord> records = itemDao.getAllItemData();
+        if (records.size() == 0 || records == null) {
+            return null;
         }
-        return null;
+
+        return records.stream().map(this::recordToItemData).collect(Collectors.toList());
     }
 
     public ExampleData setExampleData(String data) {
         String id = UUID.randomUUID().toString();
         ItemRecord record = itemDao.setExampleData(id, data);
         return new ExampleData(id, data);
+    }
+
+    public ItemData getExampleData(String id) {
+        return null;
+    }
+
+    private ItemData recordToItemData(ItemRecord records){
+        return new ItemData(records.getItemId(),
+                        records.getDescription(),
+                        records.getCurrentQty(),
+                        records.getReorderQty(),
+                        records.getQtyTrigger(),
+                        records.getOrderDate()
+                        );
+
     }
 }

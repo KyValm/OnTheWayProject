@@ -29,7 +29,7 @@ public class EndpointUtility {
         }
         // insert logic check
         if(deploymentName == null){
-            deploymentName = "capstone-ontheway-service-dev";
+            deploymentName = "capstone-ontheway1-service-dev";
         }
         if (deploymentName == null) {
             throw new IllegalArgumentException("Could not find the deployment name in environment variables.  Make sure that you have set up your environment variables using the setupEnvironment.sh script.");
@@ -92,7 +92,6 @@ public class EndpointUtility {
     public String getEndpoint(String endpoint) {
         String api = getApiEndpint();
         String url = api + endpoint;
-
         HttpClient client = HttpClient.newHttpClient();
         URI uri = URI.create(url);
         HttpRequest request = HttpRequest.newBuilder()
@@ -107,7 +106,10 @@ public class EndpointUtility {
             if (statusCode == 200) {
                 return httpResponse.body();
             } else {
-                throw new ApiGatewayException("GET request failed: " + statusCode + " status code received");
+                throw new ApiGatewayException("GET request failed: " + statusCode +" status code received" +
+                        "\n: URL is: " + url +
+                        "\n: request is:" + request +
+                        "\n: httpResponse is:" + httpResponse);
             }
         } catch (IOException | InterruptedException e) {
             return e.getMessage();
