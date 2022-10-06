@@ -14,6 +14,10 @@ public class ItemData {
     private String qtyTrigger; // ReOrder Point
     private String orderDate;  // status if order request triggered -> "last reorder 09/21/2022"
 
+    public ItemData(){
+
+    }
+
     public ItemData(String itemId,
                 String description,
                 String currentQty,

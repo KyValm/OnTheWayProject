@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.model.ItemData;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -35,11 +36,16 @@ public class LambdaServiceClient {
         try {
             // TODO - NEED TO FIGURE OUT THE JSON READER ON WHY IT'S NOT DESERIALIING RIGHT
             //results = mapper.readValue(response, new TypeReference<>(){});
-            results = mapper.readValue(response, ItemData.class);
+            //results = mapper.readValue(response, ItemData.class);
             //ItemData itemDataList = mapper.readValue(response, ItemData.class);
+
+            results = mapper.readValue(response, new TypeReference<List<ItemData>>() {});
+
+
         } catch (Exception e) {
             throw new ApiGatewayException("Response output is: " + response + "\n\nUnable to map deserialize JSON: " + e);
         }
+
         return results;
     }
 
@@ -56,4 +62,5 @@ public class LambdaServiceClient {
         }
         return itemData;
     }
+
 }

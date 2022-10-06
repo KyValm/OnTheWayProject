@@ -1,5 +1,6 @@
 package com.kenzie.capstone.service.dao;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.model.ExampleRecord;
 
@@ -40,15 +41,7 @@ public class ItemDao {
     }
 
     public List<ItemRecord> getAllItemData() {
-        ItemRecord itemRecord = new ItemRecord();
-        itemRecord.setItemId("145-1816");
-
-
-        DynamoDBQueryExpression<ItemRecord> queryExpression = new DynamoDBQueryExpression<ItemRecord>()
-                .withHashKeyValues(itemRecord)
-                .withConsistentRead(false);
-        //DynamoDBQueryExpression<ItemRecord> queryExpression = new DynamoDBQueryExpression<>();
-        return mapper.query(ItemRecord.class, queryExpression);
+        return mapper.scan(ItemRecord.class, new DynamoDBScanExpression());
     }
 
     public ItemRecord setExampleData(String id, String data) {
