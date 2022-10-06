@@ -31,11 +31,12 @@ public class LambdaServiceClient {
         // AWS type of call - NOT LOCAL
         String response = endpointUtility.getEndpoint(GET_ITEM_ENDPOINT);
 
-        List<ItemData> results = new ArrayList<>();
+        List<ItemData> results;
         try {
             // TODO - NEED TO FIGURE OUT THE JSON READER ON WHY IT'S NOT DESERIALIING RIGHT
-            ItemData itemDataList = mapper.readValue(response, new TypeReference<>(){});
-            results.add(itemDataList);
+            //results = mapper.readValue(response, new TypeReference<>(){});
+            results = mapper.readValue(response, ItemData.class);
+            //ItemData itemDataList = mapper.readValue(response, ItemData.class);
         } catch (Exception e) {
             throw new ApiGatewayException("Response output is: " + response + "\n\nUnable to map deserialize JSON: " + e);
         }

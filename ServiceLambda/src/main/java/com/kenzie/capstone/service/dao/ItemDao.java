@@ -47,7 +47,7 @@ public class ItemDao {
         DynamoDBQueryExpression<ItemRecord> queryExpression = new DynamoDBQueryExpression<ItemRecord>()
                 .withHashKeyValues(itemRecord)
                 .withConsistentRead(false);
-
+        //DynamoDBQueryExpression<ItemRecord> queryExpression = new DynamoDBQueryExpression<>();
         return mapper.query(ItemRecord.class, queryExpression);
     }
 
