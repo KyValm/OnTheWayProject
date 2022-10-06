@@ -26,7 +26,7 @@ public class LambdaServiceClient {
     }
 
     public List<ItemData> getPriorityListFromLambda(List<ItemData> itemDataList) {
-        List<ItemData> priorityList = new ArrayList<>();
+        List<ItemData> priorityItemDataList = new ArrayList<>();
         HashMap<ItemData,Integer> unsortedMap = new HashMap<>(); //Integer = multiplier to represent priority
 
 // this section for updating hashmap with triggered order values for algorithm
@@ -53,12 +53,12 @@ public class LambdaServiceClient {
                                 (e1, e2) -> e1, LinkedHashMap::new));
 
         for (HashMap.Entry<ItemData,Integer> mapElement : sortedMap.entrySet()) {
-            priorityList.add(mapElement.getKey());
+            priorityItemDataList.add(mapElement.getKey());
         }
 
-        Collections.reverse(priorityList);
+        Collections.reverse(priorityItemDataList);
 
-        //do math and filter/sort work on allInventoryItems and return priorityList
+        //do math and filter/sort work on allInventoryItems and return priorityItemDataList
 
         // 1. takes in all Items
 
@@ -70,7 +70,7 @@ public class LambdaServiceClient {
 
         // 5. call update item on each item
 
-    return priorityList;
+    return priorityItemDataList;
     }
 
 //    public List<ItemData> getAllInventoryItems(){

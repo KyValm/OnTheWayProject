@@ -4,6 +4,8 @@ import com.kenzie.capstone.service.dao.ExampleDao;
 import com.kenzie.capstone.service.dao.ItemDao;
 import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.model.ExampleRecord;
+import com.kenzie.capstone.service.model.ItemData;
+import com.kenzie.capstone.service.model.ItemRecord;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -32,6 +34,15 @@ class LambdaServiceTest {
     void setup() {
         this.itemDao = mock(ItemDao.class);
         this.lambdaService = new LambdaService(itemDao);
+    }
+
+    @Test
+    void storeItemData() {
+        ArgumentCaptor<ItemRecord> itemCaptor = ArgumentCaptor.forClass(ItemRecord.class);
+
+        //GIVEN
+        String data = "some data";
+        //WHEN
     }
 
 //    @Test

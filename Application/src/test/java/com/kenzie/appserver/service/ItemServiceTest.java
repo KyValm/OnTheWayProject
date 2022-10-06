@@ -33,6 +33,7 @@ public class ItemServiceTest {
     void setup() {
         repository = mock(ItemRepository.class);
         lambdaServiceClient = mock(LambdaServiceClient.class);
+        cacheClient = mock(CacheClient.class);
         itemService = new ItemService(repository, lambdaServiceClient, cacheClient);
     }
     /** ------------------------------------------------------------------------
@@ -83,6 +84,7 @@ public class ItemServiceTest {
                 "0",
                 LocalDateTime.now().toString()
         );
+
         //WHEN and THEN
         Item nullItem = itemService.getItemByID(newItem.getItemId());
         Assertions.assertNull(nullItem, "Item doesnt exist and should be null");
@@ -90,8 +92,9 @@ public class ItemServiceTest {
     @Test
     void updateItem() {
         //GIVEN
-        Item newItem = new Item(
-                randomUUID().toString(),
+        String itemId = randomUUID().toString();
+
+        Item newItem = new Item(itemId,
                 "test item",
                 "1",
                 "1",
@@ -99,22 +102,29 @@ public class ItemServiceTest {
                 LocalDateTime.now().toString()
         );
 
-        Item returnedItem = itemService.addInventoryItem(newItem);
-        Assertions.assertNotNull(returnedItem);
+        ItemRecord newRecord = new ItemRecord();
+        newRecord.setItemId(newItem.getItemId());
+        newRecord.setDescription(newItem.getDescription());
+        newRecord.setCurrentQty(newItem.getCurrentQty());
+        newRecord.setReorderQty(newItem.getReorderQty());
+        newRecord.setQtyTrigger(newItem.getQtyTrigger());
+        newRecord.setOrderDate(newItem.getOrderDate());
 
-        ItemRecord record = new ItemRecord();
-        record.setItemId(newItem.getItemId());
-        record.setDescription(newItem.getDescription());
-        record.setCurrentQty(newItem.getCurrentQty());
-        record.setReorderQty(newItem.getReorderQty());
-        record.setQtyTrigger(newItem.getQtyTrigger());
-        record.setOrderDate(newItem.getOrderDate());
+        when(repository.findById(itemId)).thenReturn(Optional.of(newRecord));
 
+        ArgumentCaptor<ItemRecord> itemRecordArgumentCaptor = ArgumentCaptor.forClass(ItemRecord.class);
         //WHEN
-//        Item item = itemService.getItemByID(record.getItemId());
-        record.setDescription("Description has been updated successfully");
 
-        Assertions.assertNotEquals(record.getDescription(), newItem.getDescription());
+        newItem.setDescription("Description has been updated successfully");
+        itemService.updateItem(newItem);
+
+        //THEN
+        verify(repository).save(itemRecordArgumentCaptor.capture());
+
+        ItemRecord record = itemRecordArgumentCaptor.getValue();
+
+        //THEN
+        Assertions.assertNotNull(record, "Item Record is returned.");
         Assertions.assertEquals("Description has been updated successfully", record.getDescription());
     }
     @Test

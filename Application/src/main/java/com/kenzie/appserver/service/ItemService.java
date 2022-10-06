@@ -9,10 +9,13 @@ import com.kenzie.appserver.repositories.model.ItemRecord;
 import com.kenzie.appserver.service.model.Item;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import com.kenzie.capstone.service.model.ItemData;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -28,6 +31,7 @@ public class ItemService {
 
     public Item getItemByID(String itemId) {
         // Check Cache if it has it
+
         Item cacheItem = cacheClient.get(itemId);
 
         if(cacheItem != null) {
@@ -36,6 +40,10 @@ public class ItemService {
 
         // If it's not in the cache, call it from API then add it to the cache
         Iterable<ItemRecord> response = itemRepository.findAll();
+
+        if (response == null) {
+            return null;
+        }
 
         for(ItemRecord entry : response){
             if(entry.getItemId().equals(itemId)){
@@ -60,10 +68,11 @@ public class ItemService {
         if(cacheClient.get(item.getItemId()) != null){
             cacheClient.evict(item.getItemId());
         }
-
+        Optional<ItemRecord> recordExists = itemRepository.findById(item.getItemId());
         // Action it
-        if(itemRepository.existsById(item.getItemId())){
-            itemRepository.save(createItemRecord(item));
+        if(recordExists.isPresent()){
+            ItemRecord record = createItemRecord(item);
+            itemRepository.save(record);
         }
     }
 
