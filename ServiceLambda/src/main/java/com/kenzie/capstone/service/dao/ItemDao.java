@@ -41,11 +41,7 @@ public class ItemDao {
 
     public List<ItemRecord> getAllItemData() {
         ItemRecord itemRecord = new ItemRecord();
-        String id = "145-1816";
-        itemRecord.setItemId(id);
-
-        ItemData item = new ItemData("145-1816","test","test","test","test","test");
-        storeItemData(item);
+        itemRecord.setItemId("145-1816");
 
 
         DynamoDBQueryExpression<ItemRecord> queryExpression = new DynamoDBQueryExpression<ItemRecord>()

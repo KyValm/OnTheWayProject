@@ -3,6 +3,7 @@ package com.kenzie.capstone.service.client;
 import com.amazonaws.services.dynamodbv2.document.Item;
 //import com.kenzie.appserver.service.model.Item;
 import com.amazonaws.services.dynamodbv2.xspec.S;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.model.ItemData;
@@ -30,13 +31,15 @@ public class LambdaServiceClient {
         // AWS type of call - NOT LOCAL
         String response = endpointUtility.getEndpoint(GET_ITEM_ENDPOINT);
 
-        List<ItemData> itemDataList = null;
+        List<ItemData> results = new ArrayList<>();
         try {
-            itemDataList = mapper.readValue(response, mapper.getTypeFactory().constructCollectionType(List.class, ItemData.class));
+            // TODO - NEED TO FIGURE OUT THE JSON READER ON WHY IT'S NOT DESERIALIING RIGHT
+            ItemData itemDataList = mapper.readValue(response, new TypeReference<>(){});
+            results.add(itemDataList);
         } catch (Exception e) {
-            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+            throw new ApiGatewayException("Response output is: " + response + "\n\nUnable to map deserialize JSON: " + e);
         }
-        return itemDataList;
+        return results;
     }
 
 
