@@ -5,7 +5,7 @@ import axios from 'axios'
  */
 
 // Ky is here to work on this :D
-export default class ItemClient extends BaseClass {
+export default class ExampleClient extends BaseClass {
 
     constructor(props = {}){
         super();
