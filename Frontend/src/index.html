@@ -1,35 +1,28 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <script type="text/javascript" src="examplePage.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
-<body class="background">
-<header class="header" id="header">
-    <div class="site-title">
-        <a class="header_home">On The Way </a>
+<div id="wrapper">
+<div>
+    <div>
+        <link href="css/style.css" rel="stylesheet" />
+        <div class="home-container">
+            <h1 class="home-text">On the Way</h1>
+            <div class="home-separator"></div>
+            <div class="home-separator1"></div>
+            <span class="home-text1">Inventory Management System</span>
+            <button id="get-by-id" class="home-button button">Search Item</button>
+            <button id="all-items" class="home-button1 button">Inventory</button>
+            <button id="all-priority-items" class="home-get-priority-items button">Priority Items</button>
+        </div>
+        <div class="table" id="allItemsToAdd">
+            <h1>Result:</h1>
+        </div>
     </div>
-</header>
-<div class="card">
-    <h1>MVP</h1>
-    <br><h7> As a business owner, I want to know my current inventory</h7></br>
-    <br><h7> As an employee, I want to be able to review if we have too much product</h7></br>
-    <br><h7> As a buyer, I want to be able to pull the priority list to reorder</h7></br>
-    <br><h7> As an analyst, I want to be able to purge inventory from the system</h7></br>
 </div>
-<div>
-    <ul><button type="click" id="all-priority-items">Get Priority List of Items</button></ul>
 </div>
-<div>
-    <ul><button type="click" id="all-items">Get All Items</button></ul>
-</div>
-
-
-<!-- The section below are the user input box sections -->
-<div class="table" id="allItemsToAdd">
-    <h1>Result:</h1>
-</div>
-
-</body>
 </html>

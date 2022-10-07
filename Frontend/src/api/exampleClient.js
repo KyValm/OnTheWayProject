@@ -44,6 +44,15 @@ export default class ExampleClient extends BaseClass {
        }
    }
 
+   async getItemsByCategory(category, errorCallback) {
+        try {
+            const response = await this.client.get('/item/itemCategory/${category}');
+            return response.data;
+        } catch (error) {
+            this.handleError("getItemsByCategory", error, errorCallback);
+        }
+   }
+
     async updateItem(itemId, description, currentQty, reorderQty, qtyTrigger, orderDate, errorCallback) {
         try {
             const response = await this.client.put('item', {
