@@ -26,7 +26,7 @@ public class LambdaService {
     }
 
     public List<ItemData> getAllItemData() {
-        List<ItemRecord> records = itemDao.getAllItemData();
+        List<ItemRecord> records = itemDao.getAllItemData(); // calls DynamoDB
         if (records.size() == 0 || records == null) {
             return null;
         }
@@ -46,7 +46,7 @@ public class LambdaService {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd");
         LocalDate localDate = LocalDate.now();
 
-// this section for updating hashmap with appropriate order values -> to be sorted next section and converted for return
+// this section for updating hashmap with appropriate order values
 
         for (ItemData itemData : allItemDataList) {
             double diff = Double.parseDouble(itemData.getQtyTrigger()) - Double.parseDouble(itemData.getCurrentQty());
@@ -55,7 +55,7 @@ public class LambdaService {
                 double localAccelerator = Double.parseDouble(itemData.getQtyTrigger()) * poAccelerator;
                 // effectively this calculates that every <x> percentage below qty trigger will be one purchase qty
 
-                int multiplier = (int) ((diff / localAccelerator) + 0.5); // localAccelerator as nearest int for multiplying
+                int multiplier = (int) ((diff / localAccelerator) + 0.5); // localAccelerator as nearest int for multiplying and prioritizing
                 int purchaseTotal = (int) (Double.parseDouble(itemData.getReorderQty()) * multiplier);
                 itemData.setOrderDate("PO Request " + dtf.format(localDate) + " Qty: " + purchaseTotal); // for everyone to see what's in the pipeline
                 unsortedMap.put(itemData, multiplier);
@@ -68,9 +68,10 @@ public class LambdaService {
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                 (e1, e2) -> e1, LinkedHashMap::new));
 
-        List<ItemData> returnList = new ArrayList<>(sortedMap.keySet());
-        Collections.reverse(returnList);
-            //do math and filter/sort work on allInventoryItems and return priorityList
+
+        for (HashMap.Entry<ItemData,Integer> mapElement : sortedMap.entrySet()) {
+            prioritizedList.add(mapElement.getKey());
+            Collections.reverse(prioritizedList);
 
             // 1. takes in all Items
 
@@ -81,8 +82,9 @@ public class LambdaService {
             // 4. sort qty array by instances (effectively giving priority to most depleted by % rate of qty trigger)
 
             // 5. *update item in database upon return to ItemService
+        }
 
-        return returnList;
+        return prioritizedList;
     }
 
     public ExampleData setExampleData(String data) {
