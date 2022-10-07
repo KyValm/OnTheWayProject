@@ -64,7 +64,7 @@ public class HelperItemCreation {
         ArrayList<String[]> results = new ArrayList<>();
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\ryanr\\Documents\\kenzie\\ata-capstone-project-DanJSun\\Application\\src\\main\\java\\com\\kenzie\\appserver\\controller\\helper\\results.csv"));
+            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Dan Work\\Desktop\\kenzieATA\\ata-capstone-project-DanJSun\\Application\\src\\main\\java\\com\\kenzie\\appserver\\controller\\helper\\results.csv"));
 
             String line;
             while ((line = reader.readLine()) != null){

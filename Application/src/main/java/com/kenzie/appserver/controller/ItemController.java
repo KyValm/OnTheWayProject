@@ -27,7 +27,45 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    // All the endpoint methods here
+    // Frontend #1 -----------------------------------------------------------------------------------------------------
+    @GetMapping("/{itemID}")
+    public ResponseEntity<ItemResponse> getItemByID(@PathVariable("itemID") String id) {
+        // Grab it from the service
+        Item item = itemService.getItemByID(id);
+
+        // Sniff check it
+        if(item == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        // If it's clear, then create response
+        ItemResponse results = new ItemResponse(item);
+
+        // return it
+        return ResponseEntity.ok(results);
+    }
+    // Frontend #2 -----------------------------------------------------------------------------------------------------
+    @GetMapping("/reorderNeed")
+    public ResponseEntity<List<ItemResponse>> getPriorityList(){
+        // Grab that list of items that need to be reordered
+        List<Item> response = itemService.getPriorityList();
+
+        // Sniff check it
+        if(response == null || response.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+
+        // Turn it into a list of ItemResponses
+        List<ItemResponse> results = Optional.ofNullable(response)
+                .orElse(new ArrayList<>())
+                .stream()
+                .map(this::convertItemToItemResponse)
+                .collect(Collectors.toList());
+        System.out.println("The Results: " + results);
+        // Return it
+        return ResponseEntity.ok(results);
+    }
+    // Frontend #3 -----------------------------------------------------------------------------------------------------
     @GetMapping("/all")
     public ResponseEntity<List<ItemResponse>> getAllInventoryItems() {
         // Get all the songs from the service item
@@ -48,7 +86,26 @@ public class ItemController {
         // Return it
         return ResponseEntity.ok(results);
     }
+    @GetMapping("/itemCategory/{itemCategory}")
+    public ResponseEntity<List<ItemResponse>> getItemsByCategory(@PathVariable("itemCategory") String filter){
+        // Get the list
+        List<Item> response = itemService.getItemByCategory(filter);
 
+        // Sniff Check it
+        if (response == null || response.isEmpty()) {
+            throw new IllegalArgumentException("Nothing in response");
+            //return ResponseEntity.noContent().build();
+        }
+
+        // Convert it and return it
+        List<ItemResponse> results = Optional.ofNullable(response)
+                .orElse(new ArrayList<>())
+                .stream()
+                .map(this::convertItemToItemResponse)
+                .collect(Collectors.toList());
+        // Return it
+        return ResponseEntity.ok(results);
+    }
     @PutMapping
     public ResponseEntity<ItemResponse> updateItem(@RequestBody ItemUpdateRequest itemUpdateRequest) {
         // Create the new item to plug into the itemService
@@ -88,23 +145,6 @@ public class ItemController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{itemID}")
-    public ResponseEntity<ItemResponse> getItemByID(@PathVariable("itemID") String id) {
-        // Grab it from the service
-        Item item = itemService.getItemByID(id);
-
-        // Sniff check it
-        if(item == null){
-            return ResponseEntity.notFound().build();
-        }
-
-        // If it's clear, then create response
-        ItemResponse results = new ItemResponse(item);
-
-        // return it
-        return ResponseEntity.ok(results);
-    }
-
     @PostMapping("/sampleItems")
     public ResponseEntity<List<ItemResponse>> createSampleItemList() {
         // Grab the list of items from the service
@@ -117,27 +157,6 @@ public class ItemController {
             results.add(new ItemResponse(entry));
         }
 
-        // Return it
-        return ResponseEntity.ok(results);
-    }
-
-    @GetMapping("/reorderNeed")
-    public ResponseEntity<List<ItemResponse>> getPriorityList(){
-        // Grab that list of items that need to be reordered
-        List<Item> response = itemService.getPriorityList();
-
-        // Sniff check it
-        if(response == null || response.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-
-        // Turn it into a list of ItemResponses
-        List<ItemResponse> results = Optional.ofNullable(response)
-                .orElse(new ArrayList<>())
-                .stream()
-                .map(this::convertItemToItemResponse)
-                .collect(Collectors.toList());
-        System.out.println("The Results: " + results);
         // Return it
         return ResponseEntity.ok(results);
     }

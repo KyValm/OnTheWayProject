@@ -1,5 +1,6 @@
 package com.kenzie.appserver.service;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.kenzie.appserver.config.CacheClient;
 import com.kenzie.appserver.repositories.ExampleRepository;
 import com.kenzie.appserver.repositories.ItemRepository;
@@ -26,6 +27,7 @@ public class ItemServiceTest {
     private ItemRepository repository;
     private ItemService itemService;
     private LambdaServiceClient lambdaServiceClient;
+    private DynamoDBMapper mapper;
 
     private CacheClient cacheClient;
 
@@ -34,7 +36,8 @@ public class ItemServiceTest {
         repository = mock(ItemRepository.class);
         lambdaServiceClient = mock(LambdaServiceClient.class);
         cacheClient = mock(CacheClient.class);
-        itemService = new ItemService(repository, lambdaServiceClient, cacheClient);
+        mapper = mock(DynamoDBMapper.class);
+        itemService = new ItemService(repository, lambdaServiceClient, cacheClient, mapper);
     }
     /** ------------------------------------------------------------------------
      *  itemService.findById
