@@ -86,6 +86,7 @@ public class ItemController {
         // Return it
         return ResponseEntity.ok(results);
     }
+    // Frontend #4 -----------------------------------------------------------------------------------------------------
     @GetMapping("/itemCategory/{itemCategory}")
     public ResponseEntity<List<ItemResponse>> getItemsByCategory(@PathVariable("itemCategory") String filter){
         // Get the list
@@ -93,8 +94,7 @@ public class ItemController {
 
         // Sniff Check it
         if (response == null || response.isEmpty()) {
-            throw new IllegalArgumentException("Nothing in response");
-            //return ResponseEntity.noContent().build();
+            return ResponseEntity.noContent().build();
         }
 
         // Convert it and return it
@@ -106,6 +106,8 @@ public class ItemController {
         // Return it
         return ResponseEntity.ok(results);
     }
+
+
     @PutMapping
     public ResponseEntity<ItemResponse> updateItem(@RequestBody ItemUpdateRequest itemUpdateRequest) {
         // Create the new item to plug into the itemService
