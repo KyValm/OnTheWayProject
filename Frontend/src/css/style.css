@@ -54,10 +54,7 @@
 }
 
 .card {
-    color: var(--primary-color);
-    background-color: var(--secondary-color);
-    margin: 20px;
-    padding: 10px 20px;
+
 }
 
 .validated-field:invalid {
@@ -87,3 +84,8 @@
 .state.active {
     display: block;
 }
+/*.table {*/
+/*    display: grid;*/
+/*    grid-template-columns: 1fr 1fr 80%;*/
+/*    max-width: 480px;*/
+/*}*/

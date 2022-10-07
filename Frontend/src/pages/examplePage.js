@@ -18,65 +18,65 @@ class ExamplePage extends BaseClass {
      */
     mount() {
         document.getElementById('all-priority-items').addEventListener('click', this.onGetPriorityItems);
-        document.getElementById('all-priority-items').addEventListener('click', this.renderItems);
         document.getElementById('all-items').addEventListener('click', this.onGetAllItems);
         this.client = new ExampleClient();
-        this.dataStore.addChangeListener(this.renderItems());
+        this.dataStore.addChangeListener(this.renderItems);
+        this.renderItems();
     }
 
     // Render Methods --------------------------------------------------------------------------------------------------
 
     async renderItems() {
 
-        let resultArea = document.getElementById("allItemsToAdd");
+        const items = await this.client.getAllInventoryItems(this.errorHandler);
+        const priorityItems = await this.client.getPriorityList(this.errorHandler);
 
-        const items = this.dataStore.get("priorityItems");
-
-        let fullHTML = "";
-
-        if(items){
-            fullHTML += items;
-            // for (let item of items) {
-            //     // use the comment in the HTML
-            //     fullHTML += `
-            //         <div class="card" id="${item.itemId}">
-            //             <td>${item.itemId}</td>
-            //             <td>${item.description}</td>
-            //             <td>${item.currentQty}</td>
-            //             <td>${item.reorderQty}</td>
-            //             <td>${item.qtyTrigger}</td>
-            //             <td>${item.orderDate}</td>
-            //             <td><input class="btn" id="update-arrow" type="button" value="Update" onclick="openUpdateMessageForm(this)"></td>
-            //         </div>
-            //     `;
-            // }
-            resultArea.innerHTML += fullHTML;
-        } else {
-            resultArea.innerHTML = "No Item";
+        if(items && items.length > 0) {
+            for (let item of items) {
+                item.item = await this.fetchItem(item.itemId);
+            }
         }
+
+        if(priorityItems && priorityItems.length > 0) {
+            for (let item of items) {
+                item.item = await this.fetchItem(item.itemId);
+            }
+        }
+        this.dataStore.set("items", items);
+        this.dataStore.set("priorityItems", priorityItems);
     }
 
-    // async onGetSample(event) {
-    //     // Prevent the page from refreshing on form submit
-    //     event.preventDefault();
-    //
-    //     let id = document.getElementById("create-sample-song-form").value;
-    //     this.dataStore.set("songSamples", null);
-    //
-    // }
+    async fetchItem(itemId) {
+        return await this.client.getItemById(itemId, this.errorHandler);
+    }
 
     //Event handlers -------------------------------------------------------------------------------------------------
 
-    async onGetPriorityItems() {
-        let items = this.client.getPriorityList(this.errorHandler);
+     onGetPriorityItems() {
 
-        this.dataStore.set("priorityItems", items);
+       const items = this.dataStore.get("priorityItems");
+
+       let resultHTML = document.getElementById('allItemsToAdd');
 
         if (items) {
-            this.showMessage(`Got priority items list!` + items);
+            for(const item of items) {
+                resultHTML += `               
+                    <div class="grid-item" id="${item.itemId}">
+                        <td>${item.itemId}</td>
+                        <td>${item.description}</td>
+                        <td>${item.currentQty}</td>
+                        <td>${item.reorderQty}</td>
+                        <td>${item.qtyTrigger}</td>
+                        <td>${item.orderDate}</td>
+                        <td><input class="btn" id="update-arrow" type="button" value="Update" onclick="openUpdateMessageForm(this)"></td>
+                    </div>
+                `;
+            }
+            this.showMessage(`Got priority items list!`);
         } else {
             this.errorHandler("Error generating priority list!  Try again...");
         }
+         document.getElementById("allItemsToAdd").innerHTML += resultHTML;
     }
 
     async onGetAllItems() {
@@ -88,7 +88,7 @@ class ExamplePage extends BaseClass {
         if(items) {
             for (const item of items) {
                 itemsHtml += `                                              
-                    <tr class="card" id="${item.itemId}">
+                    <tr class="grid-item" id="${item.itemId}">
                         <td>${item.itemId}</td>
                         <td>${item.description}</td>
                         <td>${item.currentQty}</td>                     
