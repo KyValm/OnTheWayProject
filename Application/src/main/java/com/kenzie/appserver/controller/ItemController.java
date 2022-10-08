@@ -1,7 +1,6 @@
 package com.kenzie.appserver.controller;
 
 
-import com.amazonaws.Response;
 import com.kenzie.appserver.controller.model.ItemCreateRequest;
 import com.kenzie.appserver.controller.model.ItemResponse;
 import com.kenzie.appserver.controller.model.ItemUpdateRequest;
@@ -90,7 +89,7 @@ public class ItemController {
     @GetMapping("/itemCategory/{itemCategory}")
     public ResponseEntity<List<ItemResponse>> getItemsByCategory(@PathVariable("itemCategory") String filter){
         // Get the list
-        List<Item> response = itemService.getItemByCategory(filter);
+        List<Item> response = itemService.getItemsOfCategory(filter);
 
         // Sniff Check it
         if (response == null || response.isEmpty()) {
