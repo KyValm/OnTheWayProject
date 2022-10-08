@@ -6,8 +6,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
-<div id="wrapper">
-<div>
+<div class="page" id="main">
     <div>
         <link href="css/style.css" rel="stylesheet" />
         <div class="home-container">
@@ -19,10 +18,28 @@
             <button id="all-items" class="home-button1 button">Inventory</button>
             <button id="all-priority-items" class="home-get-priority-items button">Priority Items</button>
         </div>
-        <div class="table" id="allItemsToAdd">
-            <h1>Result:</h1>
+<!--        <div class="table" id="allItemsToAdd">-->
+<!--            <h1>Result:</h1>-->
+<!--        </div>-->
+        <div class="main">
+            <h1>Results: </h1>
+            <ul class="cards" id="allItemsToAdd">
+                <li class="cards_item">
+                    <div class="card">
+                        <div class="card_image"><img src="https://picsum.photos/500/300/?image=5"></div>
+                        <div class="card_content">
+                            <h2 class="card_title">${item.itemId}</h2>
+                            <p class="card_text">${item.description}</p>
+                            <p class="card_text">${item.currentQty}</p>
+                            <p class="card_text">${item.reorderQty}</p>
+                            <p class="card_text">${item.qtyTrigger}</p>
+                            <p class="card_text">${item.orderDate}</p>
+                            <button class="btn card_btn">Update</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
 </div>
 </html>

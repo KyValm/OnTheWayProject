@@ -40,15 +40,20 @@ class ExamplePage extends BaseClass {
             if (items) {
                 for(const item of items) {
                     itemsHtml += `               
-                    <div class="grid-item" id="${item.itemId}">
-                        <td>${item.itemId}</td>
-                        <td>${item.description}</td>
-                        <td>${item.currentQty}</td>
-                        <td>${item.reorderQty}</td>
-                        <td>${item.qtyTrigger}</td>
-                        <td>${item.orderDate}</td>
-<!--                        <td><input class="btn" id="update-arrow" type="button" value="Update" onclick="openUpdateMessageForm(this)"></td>-->
+                    <li class="cards_item">
+                    <div class="card">
+                        <div class="card_image"><img src="https://picsum.photos/500/300/?image=5"></div>
+                        <div class="card_content">
+                            <h2 class="card_title">${item.itemId}</h2>
+                            <p class="card_text">${item.description}</p>
+                            <p class="card_text">${item.currentQty}</p>
+                            <p class="card_text">${item.reorderQty}</p>
+                            <p class="card_text">${item.qtyTrigger}</p>
+                            <p class="card_text">${item.orderDate}</p>
+                            <button class="btn card_btn">Update</button>
+                        </div>
                     </div>
+                </li>
                 `;
                 }
                 this.showMessage(`Got priority items list!`);
