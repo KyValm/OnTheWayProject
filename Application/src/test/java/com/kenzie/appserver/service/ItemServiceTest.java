@@ -9,6 +9,7 @@ import com.kenzie.appserver.repositories.model.ItemRecord;
 import com.kenzie.appserver.service.model.Example;
 import com.kenzie.appserver.service.model.Item;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
+import com.kenzie.capstone.service.model.ItemData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -79,19 +80,20 @@ public class ItemServiceTest {
     @Test
     void findItem_invalidId_isNull() {
         //GIVEN
-        Item newItem = new Item(
-                randomUUID().toString(),
-                "test item",
-                "1",
-                "1",
-                "0",
-                LocalDateTime.now().toString()
-        );
+//        Item newItem = new Item(
+//                randomUUID().toString(),
+//                "test item",
+//                "1",
+//                "1",
+//                "0",
+//                LocalDateTime.now().toString()
+//        );
 
         //WHEN and THEN
-        Item nullItem = itemService.getItemByID(newItem.getItemId());
+        Item nullItem = itemService.getItemByID(randomUUID().toString());
         Assertions.assertNull(nullItem, "Item doesnt exist and should be null");
     }
+
     @Test
     void updateItem() {
         //GIVEN
@@ -187,4 +189,86 @@ public class ItemServiceTest {
         verify(repository).deleteById(messageId);
 
     }
+
+    @Test
+    void getOnlyItemsOfCategory(){
+        Item newItem = new Item(
+                "300-3000",
+                "test item",
+                "1",
+                "1",
+                "0",
+                LocalDateTime.now().toString()
+        );
+
+        Item newItem2 = new Item(
+                "190-2440",
+                "test item",
+                "1",
+                "1",
+                "0",
+                LocalDateTime.now().toString()
+        );
+
+        Item returnedItem = itemService.addInventoryItem(newItem);
+        Item returnedItem2 = itemService.addInventoryItem(newItem2);
+
+        ItemRecord record = new ItemRecord();
+        record.setItemId(newItem.getItemId());
+        record.setDescription(newItem.getDescription());
+        record.setCurrentQty(newItem.getCurrentQty());
+        record.setReorderQty(newItem.getReorderQty());
+        record.setQtyTrigger(newItem.getQtyTrigger());
+        record.setOrderDate(newItem.getOrderDate());
+
+        ItemRecord record2 = new ItemRecord();
+        record.setItemId(newItem2.getItemId());
+        record.setDescription(newItem2.getDescription());
+        record.setCurrentQty(newItem2.getCurrentQty());
+        record.setReorderQty(newItem2.getReorderQty());
+        record.setQtyTrigger(newItem2.getQtyTrigger());
+        record.setOrderDate(newItem2.getOrderDate());
+
+        List<ItemRecord> itemList = new ArrayList<>();
+        itemList.add(record);
+        itemList.add(record2);
+
+        when(repository.findAll()).thenReturn(itemList);
+
+        List<Item> itemsOfCategory = itemService.getItemsOfCategory("300");
+
+        Assertions.assertEquals(1, itemsOfCategory.size());
+    }
+
+
+    @Test
+    void getPriorityList(){
+
+    }
+
+//    @Test
+//    void getItemByID(String itemId)
+//
+//    @Test
+//    void getAllInventoryItems()
+//
+//    @Test
+//    void addInventoryItem(Item item)
+//
+//    @Test
+//    void deleteByItemID(String itemId)
+//
+//    @Test
+//    void createSampleItemList()
+//
+//    @Test
+//    void createItem(ItemRecord item)
+//
+//    @Test
+//    void itemDataToItem(ItemData item)
+//
+//    @Test
+//    void pullFromAWS()
+
+
 }

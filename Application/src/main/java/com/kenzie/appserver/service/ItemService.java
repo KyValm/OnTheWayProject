@@ -3,7 +3,6 @@ package com.kenzie.appserver.service;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.appserver.config.CacheClient;
 import com.kenzie.appserver.controller.helper.HelperItemCreation;
 import com.kenzie.appserver.repositories.ItemRepository;
@@ -12,9 +11,7 @@ import com.kenzie.appserver.repositories.model.ItemRecord;
 import com.kenzie.appserver.service.model.Item;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import com.kenzie.capstone.service.model.ItemData;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +98,7 @@ public class ItemService {
     }
 
     // Frontend #4 -----------------------------------------------------------------------------------------------------
-    public List<Item> getItemByCategory(String filter){
+    public List<Item> getItemsOfCategory(String filter){
         // Ensure that the AWS table has been pulled
         if (!hasPulledFromAWS) {
             pullFromAWS();
@@ -191,15 +188,15 @@ public class ItemService {
                 item.getOrderDate());
     }
 
-    private ItemData itemToItemData(Item item) {
-        return new ItemData(
-                item.getItemId(),
-                item.getDescription(),
-                item.getCurrentQty(),
-                item.getReorderQty(),
-                item.getQtyTrigger(),
-                item.getOrderDate());
-    }
+//    private ItemData itemToItemData(Item item) {
+//        return new ItemData(
+//                item.getItemId(),
+//                item.getDescription(),
+//                item.getCurrentQty(),
+//                item.getReorderQty(),
+//                item.getQtyTrigger(),
+//                item.getOrderDate());
+//    }
 
     private void pullFromAWS() {
         // Grab all the things from the AWS cloud
