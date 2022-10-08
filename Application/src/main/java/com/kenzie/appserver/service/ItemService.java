@@ -200,10 +200,10 @@ public class ItemService {
 
     private void pullFromAWS() {
         // Grab all the things from the AWS cloud
-        List<ItemRecord> response = mapper.scan(ItemRecord.class, new DynamoDBScanExpression());
-
+        //List<ItemRecord> response = mapper.scan(ItemRecord.class, new DynamoDBScanExpression());
+        List<Item> response = createSampleItemList();
         // Add everything to the local repo
-        response.stream().map(this::createItem).forEach(this::addInventoryItem);
+        response.stream().forEach(this::addInventoryItem);
 
         // Update the boolean that we have in fact pulled from AWS
         hasPulledFromAWS = true;
