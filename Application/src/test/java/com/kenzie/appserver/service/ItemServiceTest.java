@@ -176,7 +176,10 @@ public class ItemServiceTest {
         itemList.add(record2);
         when(repository.findAll()).thenReturn(itemList);
 
-        Assertions.assertEquals(2, itemList.size());
+        List<Item> itemServiceList = itemService.getAllInventoryItems();
+
+        Assertions.assertNotNull(itemServiceList, "The Item List is returned");
+        Assertions.assertEquals(2, itemServiceList.size());
     }
     @Test
     void deleteItem() {
@@ -237,14 +240,118 @@ public class ItemServiceTest {
 
         List<Item> itemsOfCategory = itemService.getItemsOfCategory("300");
 
+        Assertions.assertNotNull(itemsOfCategory, "The Item List is returned");
         Assertions.assertEquals(1, itemsOfCategory.size());
     }
 
 
     @Test
     void getPriorityList(){
+        Item newItem = new Item(
+                "300-3000",
+                "test item",
+                "100",
+                "100",
+                "101",
+                LocalDateTime.now().toString()
+        );
 
+        Item newItem2 = new Item(
+                "190-2440",
+                "test item",
+                "10",
+                "100",
+                "101",
+                LocalDateTime.now().toString()
+        );
+
+        ItemData record = new ItemData();
+        record.setItemId(newItem.getItemId());
+        record.setDescription(newItem.getDescription());
+        record.setCurrentQty(newItem.getCurrentQty());
+        record.setReorderQty(newItem.getReorderQty());
+        record.setQtyTrigger(newItem.getQtyTrigger());
+        record.setOrderDate(newItem.getOrderDate());
+
+        ItemData record2 = new ItemData();
+        record.setItemId(newItem2.getItemId());
+        record.setDescription(newItem2.getDescription());
+        record.setCurrentQty(newItem2.getCurrentQty());
+        record.setReorderQty(newItem2.getReorderQty());
+        record.setQtyTrigger(newItem2.getQtyTrigger());
+        record.setOrderDate(newItem2.getOrderDate());
+
+        List<ItemData> itemList = new ArrayList<>();
+        itemList.add(record);
+        itemList.add(record2);
+
+        when(lambdaServiceClient.getPriorityList()).thenReturn(itemList);
+
+        List<Item> itemsOfPriority = itemService.getPriorityList();
+
+        Assertions.assertNotNull(itemsOfPriority, "The Item List is returned");
+        Assertions.assertEquals(record.getItemId(), itemsOfPriority.get(0).getItemId());
+        Assertions.assertEquals(record2.getItemId(), itemsOfPriority.get(1).getItemId());
     }
+
+    @Test
+    void addItem() {
+        //GIVEN
+        String itemId = randomUUID().toString();
+
+        Item newItem = new Item(itemId,
+                "test item",
+                "1",
+                "1",
+                "0",
+                LocalDateTime.now().toString()
+        );
+
+        ItemRecord newRecord = new ItemRecord();
+        newRecord.setItemId(newItem.getItemId());
+        newRecord.setDescription(newItem.getDescription());
+        newRecord.setCurrentQty(newItem.getCurrentQty());
+        newRecord.setReorderQty(newItem.getReorderQty());
+        newRecord.setQtyTrigger(newItem.getQtyTrigger());
+        newRecord.setOrderDate(newItem.getOrderDate());
+
+        when(repository.findById(itemId)).thenReturn(Optional.of(newRecord));
+
+        ArgumentCaptor<ItemRecord> itemRecordArgumentCaptor = ArgumentCaptor.forClass(ItemRecord.class);
+        //WHEN
+
+        newItem.setDescription("Description has been updated successfully");
+        itemService.addInventoryItem(newItem);
+
+        //THEN
+        verify(repository).save(itemRecordArgumentCaptor.capture());
+
+        ItemRecord record = itemRecordArgumentCaptor.getValue();
+
+        //THEN
+
+        Assertions.assertNotNull(record, "The Item record is returned");
+//        Assertions.assertNotNull(record.getItemId(), "The customer id exists");
+//        Assertions.assertEquals(record.getName(), customerName, "The customer name matches");
+//        Assertions.assertNotNull(record.getDateCreated(), "The customer date exists");
+//        Assertions.assertNull(record.getReferrerId(), "The referrerId is null");
+    }
+
+
+//    getItemByID               X
+//    getPriorityList           X
+//    getAllInventoryItems      X
+//    getItemsOfCategory        X
+//    addInventoryItem
+//    updateItem                X
+//    deleteByItemID
+//    createSampleItemList
+//    createItem
+//    createItemRecord
+//    itemDataToItem
+//    pullFromAWS
+
+
 
 //    @Test
 //    void getItemByID(String itemId)
@@ -266,6 +373,8 @@ public class ItemServiceTest {
 //
 //    @Test
 //    void itemDataToItem(ItemData item)
+
+
 //
 //    @Test
 //    void pullFromAWS()
