@@ -19,7 +19,8 @@ class ExamplePage extends BaseClass {
     mount() {
         document.getElementById('all-priority-items').addEventListener('click', this.onGetPriorityItems);
         document.getElementById('all-items').addEventListener('click', this.onGetAllItems);
-        document.getElementById('get-by-id').addEventListener('click', this.onGetItemById);
+        document.getElementById('search-id').addEventListener('submit', this.onGetItemById);
+        document.getElementById('search').addEventListener('click', this.onSearchItem);
         // document.getElementById('getItemsByCategory').addEventListener('click', this.onGetItemsByCategory);
         this.client = new ExampleClient();
         this.dataStore.addChangeListener(this.renderItems);
@@ -42,7 +43,7 @@ class ExamplePage extends BaseClass {
                     itemsHtml += `               
                     <li class="cards_item">
                     <div class="card">
-                        <div class="card_image"><img src="https://picsum.photos/500/300/?image=5"></div>
+                        <div class="card_image"><img src="https://picsum.photos/500/300/?image=5" alt="item"></div>
                         <div class="card_content">
                             <h2 class="card_title">${item.itemId}</h2>
                             <p class="card_text">${item.description}</p>
@@ -57,40 +58,39 @@ class ExamplePage extends BaseClass {
                 `;
                 }
                 this.showMessage(`Got priority items list!`);
+            }
+        } else if (mode === 2) {
 
-            }  else if (mode === 2) {
+            const items = this.dataStore.get("items");
 
-                const items = this.dataStore.get("items");
-
-                if (items) {
-                    for (const item of items) {
-                        itemsHtml += `                                              
-                    <tr class="grid-item" id="${item.itemId}">
-                        <td>${item.itemId}</td>
-                        <td>${item.description}</td>
-                        <td>${item.currentQty}</td>                     
-                        <td>${item.reorderQty}</td>
-                        <td>${item.qtyTrigger}</td>
-                        <td>${item.orderDate}</td>                                      
-                        <td><input class="btn" id="update-arrow" type="button" value="Update" onclick="openUpdateMessageForm(this)"></td>
-                    </tr>                            
+            if (items) {
+                for (const item of items) {
+                    itemsHtml += `                                              
+                    <li class="cards_item">
+                    <div class="card">
+                        <div class="card_image"><img src="https://picsum.photos/500/300/?image=5" alt="item"></div>
+                        <div class="card_content">
+                            <h2 class="card_title">${item.itemId}</h2>
+                            <p class="card_text">${item.description}</p>
+                            <p class="card_text">${item.currentQty}</p>
+                            <p class="card_text">${item.reorderQty}</p>
+                            <p class="card_text">${item.qtyTrigger}</p>
+                            <p class="card_text">${item.orderDate}</p>
+                            <button class="btn card_btn">Update</button>
+                        </div>
+                    </div>
+                </li>              
                 `;
-                    }
                 }
             }
-            document.getElementById("allItemsToAdd").innerHTML += itemsHtml;
         }
+        document.getElementById("allItemsToAdd").innerHTML += itemsHtml;
     }
 
     //Event handlers -------------------------------------------------------------------------------------------------
 
      async onGetPriorityItems() {
          const priorityItems = await this.client.getPriorityList(this.errorHandler);
-         // if (priorityItems && priorityItems.length > 0) {
-         //     for (const item of priorityItems) {
-         //         item.item = this.fetchItem(item.itemId);
-         //     }
-         // }
          this.dataStore.set("eventHandler", 1);
          this.dataStore.set("priorityItems", priorityItems);
      }
@@ -100,10 +100,49 @@ class ExamplePage extends BaseClass {
         this.dataStore.set("eventHandler", 2);
         this.dataStore.set("items", allItems);
     }
-    // finish endpoints and finish formatting
 
-    async onGetItemById() {
+    async onGetItemById(event) {
 
+        event.preventDefault();
+
+        const itemId = document.getElementById('item-id-id').value;
+
+        let itemHtml = "";
+
+        const item = await this.client.getItemById(itemId, this.errorHandler)
+
+        if (!item.isEmpty()) {
+            this.showMessage("Successful message found!")
+            itemHtml += `                                              
+                    <li class="cards_item">
+                    <div class="card">
+                        <div class="card_image"><img src="https://picsum.photos/500/300/?image=5" alt="item"></div>
+                        <div class="card_content">
+                            <h2 class="card_title">${item.itemId}</h2>
+                            <p class="card_text">${item.description}</p>
+                            <p class="card_text">${item.currentQty}</p>
+                            <p class="card_text">${item.reorderQty}</p>
+                            <p class="card_text">${item.qtyTrigger}</p>
+                            <p class="card_text">${item.orderDate}</p>
+                            <button class="btn card_btn">Update</button>
+                        </div>
+                    </div>
+                </li>              
+                `;
+        } else {
+            itemHtml += `                                              
+                    <li class="cards_item">
+                    <div class="card">
+                        <div class="card_image"><img src="" alt="No Item Found"></div>
+                        <div class="card_content">
+                            <h2 class="card_title">Item id: ${itemId} is invalid, Try again.</h2>                         
+                            <button class="btn card_btn">Update</button>
+                        </div>
+                    </div>
+                </li>              
+                `;
+        }
+        document.getElementById("search-id-form").innerHTML = itemHtml;
     }
 
     async onGetItemsByCategory() {

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <script type="text/javascript" src="examplePage.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -14,13 +13,25 @@
             <div class="home-separator"></div>
             <div class="home-separator1"></div>
             <span class="home-text1">Inventory Management System</span>
-            <button id="get-by-id" class="home-button button">Search Item</button>
+            <button type="submit" onclick="openSearchForm()" id="search"  class="home-button button">Search Item</button>
             <button id="all-items" class="home-button1 button">Inventory</button>
             <button id="all-priority-items" class="home-get-priority-items button">Priority Items</button>
         </div>
-<!--        <div class="table" id="allItemsToAdd">-->
-<!--            <h1>Result:</h1>-->
-<!--        </div>-->
+        <div class="form-popup" id="item-form">
+            <form class="form-container" id="search-id-form">
+                <p class="form-field">
+                    <!--                <input hidden id="messageId" name="messageId" value="">-->
+                    <label class="list1" for="item-id-id">Enter Item ID: </label>
+                    <br>
+                    <input class="list1"  type="text" id="item-id-id" name="recipientName" placeholder="0000-140" required>
+                    <br>
+                </p>
+                <button type="submit" class="btn" id="search-id">Search</button>
+                <button type="button" class="btn" onclick="closeSearchForm()">Cancel</button>
+            </form>
+        </div>
+    </div>
+        </div>
         <div class="main">
             <h1>Results: </h1>
             <ul class="cards" id="allItemsToAdd">
@@ -40,6 +51,17 @@
                 </li>
             </ul>
         </div>
-    </div>
-</div>
+<script>
+
+    let popup = document.getElementById("item-form");
+
+    function openSearchForm() {
+        popup.classList.add("open-form-popup");
+        document.getElementById("search-id-form").reset();
+    }
+    function closeSearchForm() {
+      popup.classList.remove("open-form-popup");
+    }
+
+</script>
 </html>
