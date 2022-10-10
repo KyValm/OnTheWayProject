@@ -1,6 +1,8 @@
 package com.kenzie.appserver.service;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.kenzie.appserver.config.CacheClient;
 import com.kenzie.appserver.repositories.ExampleRepository;
 import com.kenzie.appserver.repositories.ItemRepository;
@@ -45,12 +47,12 @@ public class ItemServiceTest {
      *  ------------------------------------------------------------------------ **/
 
     @Test
-    void getItemById() {
+    void getItemById_InputValidItem_ReturnsItem() {
         // GIVEN
 
         String id = randomUUID().toString();
 
-        Item newItem = new Item(
+        ItemRecord newItem = new ItemRecord(
                 id,
                 "test item",
                 "1",
@@ -59,28 +61,34 @@ public class ItemServiceTest {
                 LocalDateTime.now().toString()
         );
 
-        ArgumentCaptor<ItemRecord> argumentCaptor = ArgumentCaptor.forClass(ItemRecord.class);
+        itemService.createItem(newItem);
+
+
+//        PaginatedScanList<ItemRecord> listItemRecords = new PaginatedScanList;
+
+//        when(mapper.scan(ItemRecord.class, new DynamoDBScanExpression())).thenReturn(listItemRecords);
+//
 
         // WHEN
+        ArrayList<ItemRecord> listRecords = new ArrayList<>();
+        listRecords.add(newItem);
+        Iterable<ItemRecord> listReturned = new ArrayList<>(listRecords);
+
+        when(repository.findAll()).thenReturn(listReturned);
         Item returnedItem = itemService.getItemByID(id);
-
-
-
         // THEN
-        Assertions.assertNotNull(returnedItem, "The object is returned");
+        Assertions.assertNotNull(returnedItem, "The object is not returned");
 
-        verify(repository).save(argumentCaptor.capture());
 
-        ItemRecord record = argumentCaptor.getValue();
-
-        Assertions.assertNotNull(record, "The Item record is returned");
-        Assertions.assertEquals(newItem.getItemId(), record.getItemId() , "The id matches");
-        Assertions.assertEquals(newItem.getDescription(), record.getDescription());
-        Assertions.assertEquals(newItem.getCurrentQty(), record.getCurrentQty());
-        Assertions.assertEquals(newItem.getReorderQty(), record.getReorderQty());
-        Assertions.assertEquals(newItem.getQtyTrigger(), record.getQtyTrigger());
-        Assertions.assertEquals(newItem.getOrderDate(), record.getOrderDate());
+        Assertions.assertNotNull(returnedItem, "The Item record is returned");
+        Assertions.assertEquals(newItem.getItemId(), returnedItem.getItemId() , "The id matches");
+        Assertions.assertEquals(newItem.getDescription(), returnedItem.getDescription());
+        Assertions.assertEquals(newItem.getCurrentQty(), returnedItem.getCurrentQty());
+        Assertions.assertEquals(newItem.getReorderQty(), returnedItem.getReorderQty());
+        Assertions.assertEquals(newItem.getQtyTrigger(), returnedItem.getQtyTrigger());
+        Assertions.assertEquals(newItem.getOrderDate(), returnedItem.getOrderDate());
     }
+
     @Test
     void findItem_invalidId_isNull() {
         //GIVEN

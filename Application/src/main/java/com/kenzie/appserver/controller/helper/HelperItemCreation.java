@@ -67,8 +67,9 @@ public class HelperItemCreation {
             // Variables for different users
             String fileNameForDan = "C:\\Users\\Dan Work\\Desktop\\kenzieATA\\ata-capstone-project-DanJSun\\Application\\src\\main\\java\\com\\kenzie\\appserver\\controller\\helper\\results.csv";
             String fileNameForKy = "C:\\Users\\Kynoa\\KenzieTerm4\\ata-capstone-project-DanJSun\\Application\\src\\main\\java\\com\\kenzie\\appserver\\controller\\helper\\results.csv";
+            String fileNameForRyan = "C:\\Users\\ryanr\\Documents\\kenzie\\ata-capstone-project-DanJSun\\Application\\src\\main\\java\\com\\kenzie\\appserver\\controller\\helper\\results.csv";
 
-            BufferedReader reader = new BufferedReader(new FileReader(fileNameForDan));
+            BufferedReader reader = new BufferedReader(new FileReader(fileNameForRyan));
 
             String line;
             while ((line = reader.readLine()) != null){
