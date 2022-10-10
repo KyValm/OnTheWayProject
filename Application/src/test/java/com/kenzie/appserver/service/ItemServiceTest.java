@@ -49,7 +49,6 @@ public class ItemServiceTest {
     @Test
     void getItemById_InputValidItem_ReturnsItem() {
         // GIVEN
-
         String id = randomUUID().toString();
 
         ItemRecord newItem = new ItemRecord(
@@ -61,14 +60,15 @@ public class ItemServiceTest {
                 LocalDateTime.now().toString()
         );
 
-
-        // WHEN
         ArrayList<ItemRecord> listRecords = new ArrayList<>();
         listRecords.add(newItem);
         Iterable<ItemRecord> listReturned = new ArrayList<>(listRecords);
 
         when(repository.findAll()).thenReturn(listReturned);
+
+        // WHEN
         Item returnedItem = itemService.getItemByID(id);
+
         // THEN
         Assertions.assertNotNull(returnedItem, "The object is not returned");
 
@@ -85,7 +85,6 @@ public class ItemServiceTest {
     @Test
     void getItemById_inputInValidId_ReturnsNull() {
         // GIVEN
-
         String id = randomUUID().toString();
 
         ItemRecord newItem = new ItemRecord(
@@ -106,15 +105,14 @@ public class ItemServiceTest {
                 LocalDateTime.now().toString()
         );
 
-
         // WHEN
         ArrayList<ItemRecord> listRecords = new ArrayList<>();
         listRecords.add(fakeItem);
         Iterable<ItemRecord> listReturned = new ArrayList<>(listRecords);
 
-
         when(repository.findAll()).thenReturn(listReturned);
         Item returnedItem = itemService.getItemByID(id);
+
         // THEN
         Assertions.assertNull(returnedItem, "The object is not null");
     }
@@ -141,18 +139,10 @@ public class ItemServiceTest {
 
     @Test
     void findItem_invalidId_isNull() {
-        //GIVEN
-//        Item newItem = new Item(
-//                randomUUID().toString(),
-//                "test item",
-//                "1",
-//                "1",
-//                "0",
-//                LocalDateTime.now().toString()
-//        );
-
-        //WHEN and THEN
+        //GIVEN and WHEN
         Item nullItem = itemService.getItemByID(randomUUID().toString());
+
+        //THEN
         Assertions.assertNull(nullItem, "Item doesn't exist and should be null");
     }
 
@@ -180,15 +170,8 @@ public class ItemServiceTest {
         newItem.setDescription("Description has been updated successfully");
         when(repository.findById(itemId)).thenReturn(Optional.of(newRecord));
 
-//        ArgumentCaptor<ItemRecord> itemRecordArgumentCaptor = ArgumentCaptor.forClass(ItemRecord.class);
         //WHEN
-
         itemService.updateItem(newItem);
-
-        //THEN
-//        verify(repository).save(itemRecordArgumentCaptor.capture());
-//
-//        ItemRecord record = itemRecordArgumentCaptor.getValue();
 
         //THEN
         Assertions.assertNotNull(newRecord, "Item Record is not returned.");
@@ -214,9 +197,6 @@ public class ItemServiceTest {
                 "0",
                 LocalDateTime.now().toString()
         );
-
-//        Item returnedItem = itemService.addInventoryItem(newItem);
-//        Item returnedItem2 = itemService.addInventoryItem(newItem2);
 
         ItemRecord record = new ItemRecord();
         record.setItemId(newItem.getItemId());
@@ -259,16 +239,11 @@ public class ItemServiceTest {
                 LocalDateTime.now().toString()
         );
 
-//        List<ItemRecord> responseList = new ArrayList<>();
-//        responseList.add(newItem);
-
         itemService.addInventoryItem(newItem);
-//        repository.save(newItem);
 
         when(repository.findById(newItem.getItemId())).thenReturn(null);
 
         //WHEN
-
         itemService.deleteByItemID(newItem.getItemId());
 
         //THEN
@@ -278,6 +253,7 @@ public class ItemServiceTest {
 
     @Test
     void getItemsOfCategory_ValidItems_ReturnsOnlyItemsOfCategory(){
+        //GIVEN
         ItemRecord newItem = new ItemRecord(
                 "300-3000",
                 "test item",
@@ -302,14 +278,11 @@ public class ItemServiceTest {
         responseList.add(newItem2);
 
         when(repository.findAll()).thenReturn(responseList);
-//        when(itemService.getAllInventoryItems()).thenReturn(responseList);
 
         //WHEN
-
         List<Item> itemsOfCategory = itemService.getItemsOfCategory("300");
 
         //THEN
-
         Assertions.assertNotNull(itemsOfCategory, "The Item List is returned");
         Assertions.assertEquals(1, itemsOfCategory.size());
         Assertions.assertEquals("300-3000", itemsOfCategory.get(0).getItemId());
@@ -318,6 +291,7 @@ public class ItemServiceTest {
 
     @Test
     void getPriorityList_analyzesValidListItems_happyCase(){
+        //GIVEN
         Item newItem = new Item(
                 "300-3000",
                 "test item",
@@ -358,8 +332,10 @@ public class ItemServiceTest {
 
         when(lambdaServiceClient.getPriorityList()).thenReturn(itemList);
 
+        //WHEN
         List<Item> itemsOfPriority = itemService.getPriorityList();
 
+        //THEN
         Assertions.assertNotNull(itemsOfPriority, "The Item List is returned");
         Assertions.assertEquals(record.getItemId(), itemsOfPriority.get(0).getItemId());
         Assertions.assertEquals(record2.getItemId(), itemsOfPriority.get(1).getItemId());
@@ -399,7 +375,6 @@ public class ItemServiceTest {
         ItemRecord record = itemRecordArgumentCaptor.getValue();
 
         //THEN
-
         Assertions.assertNotNull(record, "The Item record is returned");
         Assertions.assertNotNull(record.getItemId(), "The customer id exists");
         Assertions.assertNotNull(record.getDescription(), "The description exists");
