@@ -46,12 +46,12 @@ public class GetExampleData implements RequestHandler<APIGatewayProxyRequestEven
         }
 
         try {
-            ItemData exampleData = lambdaService.getExampleData(id);
-            String output = gson.toJson(exampleData);
+//            ItemData exampleData = lambdaService.getExampleData(id);
+//            String output = gson.toJson(exampleData);
 
             return response
-                    .withStatusCode(200)
-                    .withBody(output);
+                    .withStatusCode(200);
+//                    .withBody(output);
 
         } catch (Exception e) {
             return response
