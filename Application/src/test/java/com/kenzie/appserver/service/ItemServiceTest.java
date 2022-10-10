@@ -83,7 +83,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void getItemById_InValidItem_ReturnsNull() {
+    void getItemById_inputInValidId_ReturnsNull() {
         // GIVEN
 
         String id = randomUUID().toString();
@@ -97,13 +97,23 @@ public class ItemServiceTest {
                 LocalDateTime.now().toString()
         );
 
+        ItemRecord fakeItem = new ItemRecord(
+                randomUUID().toString(),
+                "test item",
+                "1",
+                "1",
+                "0",
+                LocalDateTime.now().toString()
+        );
+
 
         // WHEN
         ArrayList<ItemRecord> listRecords = new ArrayList<>();
-        listRecords.add(newItem);
+        listRecords.add(fakeItem);
         Iterable<ItemRecord> listReturned = new ArrayList<>(listRecords);
 
-        when(repository.findAll()).thenReturn(null);
+
+        when(repository.findAll()).thenReturn(listRecords);
         Item returnedItem = itemService.getItemByID(id);
         // THEN
         Assertions.assertNull(returnedItem, "The object is not null");
