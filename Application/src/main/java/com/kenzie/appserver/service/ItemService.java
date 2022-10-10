@@ -74,7 +74,7 @@ public class ItemService {
         List<Item> priorityList = new ArrayList<>();
         for (ItemData itemData : priorityItemDataList) {
             Item item = itemDataToItem(itemData);
-            updateItem(item);
+//            updateItem(item);
             priorityList.add(item);
         }
 

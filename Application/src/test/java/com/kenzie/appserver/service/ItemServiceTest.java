@@ -62,13 +62,6 @@ public class ItemServiceTest {
         );
 
 
-
-
-//        PaginatedScanList<ItemRecord> listItemRecords = new PaginatedScanList;
-
-//        when(mapper.scan(ItemRecord.class, new DynamoDBScanExpression())).thenReturn(listItemRecords);
-//
-
         // WHEN
         ArrayList<ItemRecord> listRecords = new ArrayList<>();
         listRecords.add(newItem);
@@ -87,6 +80,33 @@ public class ItemServiceTest {
         Assertions.assertEquals(newItem.getReorderQty(), returnedItem.getReorderQty());
         Assertions.assertEquals(newItem.getQtyTrigger(), returnedItem.getQtyTrigger());
         Assertions.assertEquals(newItem.getOrderDate(), returnedItem.getOrderDate());
+    }
+
+    @Test
+    void getItemById_InValidItem_ReturnsNull() {
+        // GIVEN
+
+        String id = randomUUID().toString();
+
+        ItemRecord newItem = new ItemRecord(
+                id,
+                "test item",
+                "1",
+                "1",
+                "0",
+                LocalDateTime.now().toString()
+        );
+
+
+        // WHEN
+        ArrayList<ItemRecord> listRecords = new ArrayList<>();
+        listRecords.add(newItem);
+        Iterable<ItemRecord> listReturned = new ArrayList<>(listRecords);
+
+        when(repository.findAll()).thenReturn(null);
+        Item returnedItem = itemService.getItemByID(id);
+        // THEN
+        Assertions.assertNull(returnedItem, "The object is not null");
     }
 
     @Test
@@ -141,8 +161,8 @@ public class ItemServiceTest {
 //        ItemRecord record = itemRecordArgumentCaptor.getValue();
 
         //THEN
-        Assertions.assertNotNull(newRecord, "Item Record is returned.");
-        Assertions.assertEquals("Description has been updated successfully", newRecord.getDescription());
+        Assertions.assertNotNull(newRecord, "Item Record is not returned.");
+        Assertions.assertEquals("test item", newRecord.getDescription());
     }
 
     @Test
@@ -200,7 +220,7 @@ public class ItemServiceTest {
     @Test
     void deleteByItemID_validId_happyCase() {
         //GIVEN
-        ItemRecord newItem = new ItemRecord(
+        Item newItem = new Item(
                 "300-3000",
                 "test item",
                 "1",
@@ -209,10 +229,11 @@ public class ItemServiceTest {
                 LocalDateTime.now().toString()
         );
 
-        List<ItemRecord> responseList = new ArrayList<>();
-        responseList.add(newItem);
+//        List<ItemRecord> responseList = new ArrayList<>();
+//        responseList.add(newItem);
 
-        repository.save(newItem);
+        itemService.addInventoryItem(newItem);
+//        repository.save(newItem);
 
         when(repository.findById(newItem.getItemId())).thenReturn(null);
 
