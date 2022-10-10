@@ -2,6 +2,7 @@ package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.ItemCreateRequest;
+import com.kenzie.appserver.controller.model.ItemResponse;
 import com.kenzie.appserver.controller.model.ItemUpdateRequest;
 import com.kenzie.appserver.service.ItemService;
 
@@ -11,10 +12,16 @@ import net.andreinc.mockneat.MockNeat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
@@ -166,5 +173,69 @@ class ItemControllerTest {
         mvc.perform(get("/item/all")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getItemByID_validId_returnsId() throws Exception {
+        // GIVEN
+        Item item = new Item(mockNeat.strings().get(),
+                mockNeat.strings().get(),
+                mockNeat.strings().get(),
+                mockNeat.strings().get(),
+                mockNeat.strings().get(),
+                mockNeat.strings().get());
+
+        itemService.addInventoryItem(item);
+
+        // WHEN and THEN
+        ResultActions actions = mvc.perform(get("/items/{itemID}",item.getItemId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    public void getPriorityList_invokeLambda_happyCase() throws Exception {
+        // GIVEN
+
+        // WHEN and THEN
+        ResultActions actions = mvc.perform(get("/items/reorderNeed")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getItemsByCategory_validCategory_happyCase() throws Exception {
+        // GIVEN
+        String category1 = "300" + mockNeat.strings().get();
+
+        Item item1 = new Item(category1,
+                mockNeat.strings().get(),
+                mockNeat.strings().get(),
+                mockNeat.strings().get(),
+                mockNeat.strings().get(),
+                mockNeat.strings().get());
+
+        Item item3 = new Item(mockNeat.strings().get(),
+                mockNeat.strings().get(),
+                mockNeat.strings().get(),
+                mockNeat.strings().get(),
+                mockNeat.strings().get(),
+                mockNeat.strings().get());
+
+        itemService.addInventoryItem(item1);
+        itemService.addInventoryItem(item3);
+
+        // WHEN and THEN
+
+        mvc.perform(get("/items/itemCategory/{itemCategory}","300")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect((ResultMatcher) jsonPath("itemId"))
+//                .value(is(category1))
+                .andExpect(status().isOk());
+
     }
 }
