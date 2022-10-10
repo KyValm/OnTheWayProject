@@ -188,7 +188,7 @@ class ItemControllerTest {
         itemService.addInventoryItem(item);
 
         // WHEN and THEN
-        ResultActions actions = mvc.perform(get("/items/{itemID}",item.getItemId())
+        ResultActions actions = mvc.perform(get("/item/{itemID}",item.getItemId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -200,7 +200,7 @@ class ItemControllerTest {
         // GIVEN
 
         // WHEN and THEN
-        ResultActions actions = mvc.perform(get("/items/reorderNeed")
+        ResultActions actions = mvc.perform(get("/item/reorderNeed")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -230,11 +230,9 @@ class ItemControllerTest {
 
         // WHEN and THEN
 
-        mvc.perform(get("/items/itemCategory/{itemCategory}","300")
+        mvc.perform(get("/item/itemCategory/{itemCategory}","300")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect((ResultMatcher) jsonPath("itemId"))
-//                .value(is(category1))
                 .andExpect(status().isOk());
 
     }
