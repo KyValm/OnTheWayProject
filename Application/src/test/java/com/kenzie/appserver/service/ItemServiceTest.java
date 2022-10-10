@@ -138,6 +138,15 @@ public class ItemServiceTest {
     }
 
     @Test
+    void findItem_itemDoesntExist_returnsNull() {
+        //GIVEN and WHEN
+        Item nullItem = itemService.getItemByID(randomUUID().toString());
+
+        //THEN
+        Assertions.assertNull(nullItem, "Item doesn't exist and should be null");
+    }
+
+    @Test
     void findItem_invalidId_isNull() {
         //GIVEN and WHEN
         Item nullItem = itemService.getItemByID(randomUUID().toString());
