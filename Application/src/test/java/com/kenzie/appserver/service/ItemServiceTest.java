@@ -437,7 +437,7 @@ public class ItemServiceTest {
 
         // THEN
 
-
+        Assertions.assertTrue(itemService.hasPulledFromAWS);
 
     }
 

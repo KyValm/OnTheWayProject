@@ -24,7 +24,7 @@ public class ItemService {
     private CacheClient cacheClient;
     private DynamoDBMapper mapper;
 
-    private boolean hasPulledFromAWS;
+    public boolean hasPulledFromAWS; // may want to make this private, though it will break a test
 
     public ItemService(ItemRepository itemRepository, LambdaServiceClient lambdaServiceClient, CacheClient cacheClient, DynamoDBMapper mapper) { // CacheClient cacheClient
         this.itemRepository = itemRepository;
