@@ -48,8 +48,10 @@ public class ItemServiceTest {
     void getItemById() {
         // GIVEN
 
+        String id = randomUUID().toString();
+
         Item newItem = new Item(
-                randomUUID().toString(),
+                id,
                 "test item",
                 "1",
                 "1",
@@ -60,7 +62,9 @@ public class ItemServiceTest {
         ArgumentCaptor<ItemRecord> argumentCaptor = ArgumentCaptor.forClass(ItemRecord.class);
 
         // WHEN
-        Item returnedItem = itemService.addInventoryItem(newItem);
+        Item returnedItem = itemService.getItemByID(id);
+
+
 
         // THEN
         Assertions.assertNotNull(returnedItem, "The object is returned");
@@ -152,8 +156,8 @@ public class ItemServiceTest {
                 LocalDateTime.now().toString()
         );
 
-        Item returnedItem = itemService.addInventoryItem(newItem);
-        Item returnedItem2 = itemService.addInventoryItem(newItem2);
+//        Item returnedItem = itemService.addInventoryItem(newItem);
+//        Item returnedItem2 = itemService.addInventoryItem(newItem2);
 
         ItemRecord record = new ItemRecord();
         record.setItemId(newItem.getItemId());
@@ -213,35 +217,45 @@ public class ItemServiceTest {
                 LocalDateTime.now().toString()
         );
 
-        Item returnedItem = itemService.addInventoryItem(newItem);
-        Item returnedItem2 = itemService.addInventoryItem(newItem2);
+//        Item returnedItem = itemService.addInventoryItem(newItem);
+//        Item returnedItem2 = itemService.addInventoryItem(newItem2);
+//
+//        ItemRecord record = new ItemRecord();
+//        record.setItemId(newItem.getItemId());
+//        record.setDescription(newItem.getDescription());
+//        record.setCurrentQty(newItem.getCurrentQty());
+//        record.setReorderQty(newItem.getReorderQty());
+//        record.setQtyTrigger(newItem.getQtyTrigger());
+//        record.setOrderDate(newItem.getOrderDate());
+//
+//        ItemRecord record2 = new ItemRecord();
+//        record.setItemId(newItem2.getItemId());
+//        record.setDescription(newItem2.getDescription());
+//        record.setCurrentQty(newItem2.getCurrentQty());
+//        record.setReorderQty(newItem2.getReorderQty());
+//        record.setQtyTrigger(newItem2.getQtyTrigger());
+//        record.setOrderDate(newItem2.getOrderDate());
+//
+//        List<ItemRecord> itemList = new ArrayList<>();
+//        itemList.add(record);
+//        itemList.add(record2);
 
-        ItemRecord record = new ItemRecord();
-        record.setItemId(newItem.getItemId());
-        record.setDescription(newItem.getDescription());
-        record.setCurrentQty(newItem.getCurrentQty());
-        record.setReorderQty(newItem.getReorderQty());
-        record.setQtyTrigger(newItem.getQtyTrigger());
-        record.setOrderDate(newItem.getOrderDate());
+        List<Item> responseList = new ArrayList<>();
+        responseList.add(newItem);
+        responseList.add(newItem2);
 
-        ItemRecord record2 = new ItemRecord();
-        record.setItemId(newItem2.getItemId());
-        record.setDescription(newItem2.getDescription());
-        record.setCurrentQty(newItem2.getCurrentQty());
-        record.setReorderQty(newItem2.getReorderQty());
-        record.setQtyTrigger(newItem2.getQtyTrigger());
-        record.setOrderDate(newItem2.getOrderDate());
+//        when(repository.findAll()).thenReturn(itemList);
+        when(itemService.getAllInventoryItems()).thenReturn(responseList);
 
-        List<ItemRecord> itemList = new ArrayList<>();
-        itemList.add(record);
-        itemList.add(record2);
-
-        when(repository.findAll()).thenReturn(itemList);
+        //WHEN
 
         List<Item> itemsOfCategory = itemService.getItemsOfCategory("300");
 
+        //THEN
+
         Assertions.assertNotNull(itemsOfCategory, "The Item List is returned");
         Assertions.assertEquals(1, itemsOfCategory.size());
+        Assertions.assertEquals("300-3000", itemsOfCategory.get(0).getItemId());
     }
 
 
@@ -320,7 +334,6 @@ public class ItemServiceTest {
         ArgumentCaptor<ItemRecord> itemRecordArgumentCaptor = ArgumentCaptor.forClass(ItemRecord.class);
         //WHEN
 
-        newItem.setDescription("Description has been updated successfully");
         itemService.addInventoryItem(newItem);
 
         //THEN
@@ -331,53 +344,102 @@ public class ItemServiceTest {
         //THEN
 
         Assertions.assertNotNull(record, "The Item record is returned");
-//        Assertions.assertNotNull(record.getItemId(), "The customer id exists");
-//        Assertions.assertEquals(record.getName(), customerName, "The customer name matches");
-//        Assertions.assertNotNull(record.getDateCreated(), "The customer date exists");
-//        Assertions.assertNull(record.getReferrerId(), "The referrerId is null");
+        Assertions.assertNotNull(record.getItemId(), "The customer id exists");
+        Assertions.assertNotNull(record.getDescription(), "The description exists");
+        Assertions.assertNotNull(record.getOrderDate(), "The order date exists");
+        Assertions.assertNotNull(record.getCurrentQty(), "The current qty exists");
+        Assertions.assertNotNull(record.getQtyTrigger(), "The qty trigger exists");
+        Assertions.assertNotNull(record.getReorderQty(), "The reorder qty exists");
     }
 
+    @Test
+    void itemDataConvertsToItem() {
+        //GIVEN
+        String itemId = randomUUID().toString();
 
-//    getItemByID               X
-//    getPriorityList           X
-//    getAllInventoryItems      X
-//    getItemsOfCategory        X
-//    addInventoryItem
-//    updateItem                X
-//    deleteByItemID
-//    createSampleItemList
-//    createItem
-//    createItemRecord
-//    itemDataToItem
-//    pullFromAWS
+        ItemData itemData = new ItemData(itemId,
+                "test item",
+                "1",
+                "1",
+                "0",
+                LocalDateTime.now().toString()
+        );
+
+        //WHEN AND THEN
+        Item item = itemService.itemDataToItem(itemData);
+
+        Assertions.assertNotNull(item, "The Item is returned");
+        Assertions.assertEquals(item.getItemId(), itemData.getItemId());
+        Assertions.assertEquals(item.getDescription(), itemData.getDescription());
+        Assertions.assertEquals(item.getOrderDate(), itemData.getOrderDate());
+        Assertions.assertEquals(item.getCurrentQty(), itemData.getCurrentQty());
+        Assertions.assertEquals(item.getQtyTrigger(), itemData.getQtyTrigger());
+        Assertions.assertEquals(item.getReorderQty(), itemData.getReorderQty());
+    }
+
+    @Test
+    void createItemFromRecord() {
+        //GIVEN
+        String itemId = randomUUID().toString();
+
+        ItemRecord itemRecord = new ItemRecord(
+                itemId,
+                "test item",
+                "1",
+                "1",
+                "0",
+                LocalDateTime.now().toString()
+        );
+
+        //WHEN AND THEN
+        Item item = itemService.createItem(itemRecord);
+
+        Assertions.assertNotNull(item, "The Item is returned");
+        Assertions.assertEquals(item.getItemId(), itemRecord.getItemId());
+        Assertions.assertEquals(item.getDescription(), itemRecord.getDescription());
+        Assertions.assertEquals(item.getOrderDate(), itemRecord.getOrderDate());
+        Assertions.assertEquals(item.getCurrentQty(), itemRecord.getCurrentQty());
+        Assertions.assertEquals(item.getQtyTrigger(), itemRecord.getQtyTrigger());
+        Assertions.assertEquals(item.getReorderQty(), itemRecord.getReorderQty());
+    }
+
+    @Test
+    void pullFromAWS(){
+        // GIVEN
+
+        Item newItem = new Item(
+                "300-3000",
+                "test item",
+                "100",
+                "100",
+                "101",
+                LocalDateTime.now().toString()
+        );
+
+        Item newItem2 = new Item(
+                "190-2440",
+                "test item",
+                "10",
+                "100",
+                "101",
+                LocalDateTime.now().toString()
+        );
+
+        List<Item> createList = new ArrayList<>();
+        createList.add(newItem);
+        createList.add(newItem2);
+
+        when(itemService.createSampleItemList()).thenReturn(createList);
+
+        // WHEN
+
+        itemService.pullFromAWS();
+
+        // THEN
 
 
 
-//    @Test
-//    void getItemByID(String itemId)
-//
-//    @Test
-//    void getAllInventoryItems()
-//
-//    @Test
-//    void addInventoryItem(Item item)
-//
-//    @Test
-//    void deleteByItemID(String itemId)
-//
-//    @Test
-//    void createSampleItemList()
-//
-//    @Test
-//    void createItem(ItemRecord item)
-//
-//    @Test
-//    void itemDataToItem(ItemData item)
-
-
-//
-//    @Test
-//    void pullFromAWS()
+    }
 
 
 }

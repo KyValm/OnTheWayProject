@@ -156,7 +156,7 @@ public class ItemService {
     }
 
     // Helper Methods ##################################################################################################
-    private Item createItem(ItemRecord item) {
+    Item createItem(ItemRecord item) {
         return new Item(
                 item.getItemId(),
                 item.getDescription(),
@@ -178,7 +178,7 @@ public class ItemService {
 
     }
 
-    private Item itemDataToItem(ItemData item) {
+    Item itemDataToItem(ItemData item) {
         return new Item(
                 item.getItemId(),
                 item.getDescription(),
@@ -188,19 +188,9 @@ public class ItemService {
                 item.getOrderDate());
     }
 
-//    private ItemData itemToItemData(Item item) {
-//        return new ItemData(
-//                item.getItemId(),
-//                item.getDescription(),
-//                item.getCurrentQty(),
-//                item.getReorderQty(),
-//                item.getQtyTrigger(),
-//                item.getOrderDate());
-//    }
-
-    private void pullFromAWS() {
+    public void pullFromAWS() { // "Day of" inventory pull
         // Grab all the things from the AWS cloud
-        //List<ItemRecord> response = mapper.scan(ItemRecord.class, new DynamoDBScanExpression());
+        // List<ItemRecord> response = mapper.scan(ItemRecord.class, new DynamoDBScanExpression());
         List<Item> response = createSampleItemList();
         // Add everything to the local repo
         response.stream().forEach(this::addInventoryItem);

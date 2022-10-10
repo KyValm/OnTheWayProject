@@ -15,6 +15,23 @@ public class ItemRecord {
     private String qtyTrigger;
     private String orderDate; // status if ordered triggered
 
+    public ItemRecord(String itemId,
+                      String description,
+                      String currentQty,
+                      String reorderQty,
+                      String qtyTrigger,
+                      String orderDate) {
+        this.itemId = itemId;
+        this.description = description;
+        this.currentQty = currentQty;
+        this.reorderQty = reorderQty;
+        this.qtyTrigger = qtyTrigger;
+        this.orderDate = orderDate;
+    }
+
+    public ItemRecord() {
+
+    }
 
     @DynamoDBHashKey(attributeName = "ItemId")
     public String getItemId() {
