@@ -120,6 +120,26 @@ public class ItemServiceTest {
     }
 
     @Test
+    void getItemById_withLoadedCache_returnCacheItem() {
+        //GIVEN
+        Item newItem = new Item(
+                "456",
+                "test item",
+                "1",
+                "1",
+                "0",
+                LocalDateTime.now().toString()
+        );
+        //WHEN
+
+        when(cacheClient.get(newItem.getItemId())).thenReturn(newItem);
+        Item cacheItem = itemService.getItemByID(newItem.getItemId());
+        
+        // and THEN
+        Assertions.assertEquals(cacheItem.getItemId(),newItem.getItemId());
+    }
+
+    @Test
     void findItem_invalidId_isNull() {
         //GIVEN
 //        Item newItem = new Item(
