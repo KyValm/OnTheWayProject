@@ -138,8 +138,12 @@ public class ItemServiceTest {
     }
 
     @Test
-    void findItem_itemDoesntExist_returnsNull() {
-        //GIVEN and WHEN
+    void getItemById_itemDoesntExist_returnsNull() {
+        //GIVEN
+        Iterable<ItemRecord> listReturned = new ArrayList<>();
+        when(repository.findAll()).thenReturn(listReturned);
+
+        //WHEN
         Item nullItem = itemService.getItemByID(randomUUID().toString());
 
         //THEN
