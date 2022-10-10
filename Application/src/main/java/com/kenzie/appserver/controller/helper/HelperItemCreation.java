@@ -69,7 +69,16 @@ public class HelperItemCreation {
             String fileNameForKy = "C:\\Users\\Kynoa\\KenzieTerm4\\ata-capstone-project-DanJSun\\Application\\src\\main\\java\\com\\kenzie\\appserver\\controller\\helper\\results.csv";
             String fileNameForRyan = "C:\\Users\\ryanr\\Documents\\kenzie\\ata-capstone-project-DanJSun\\Application\\src\\main\\java\\com\\kenzie\\appserver\\controller\\helper\\results.csv";
 
-            BufferedReader reader = new BufferedReader(new FileReader(fileNameForRyan));
+            BufferedReader reader;
+            try{
+                reader = new BufferedReader(new FileReader(fileNameForRyan));
+            }catch (Exception e){
+                try{
+                    reader = new BufferedReader(new FileReader(fileNameForKy));
+                }catch (Exception f){
+                    reader = new BufferedReader(new FileReader(fileNameForDan));
+                }
+            }
 
             String line;
             while ((line = reader.readLine()) != null){
