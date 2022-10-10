@@ -113,7 +113,7 @@ public class ItemServiceTest {
         Iterable<ItemRecord> listReturned = new ArrayList<>(listRecords);
 
 
-        when(repository.findAll()).thenReturn(listRecords);
+        when(repository.findAll()).thenReturn(listReturned);
         Item returnedItem = itemService.getItemByID(id);
         // THEN
         Assertions.assertNull(returnedItem, "The object is not null");
@@ -121,7 +121,7 @@ public class ItemServiceTest {
 
     @Test
     void getItemById_withLoadedCache_returnCacheItem() {
-        //GIVEN
+        // GIVEN
         Item newItem = new Item(
                 "456",
                 "test item",
@@ -130,12 +130,12 @@ public class ItemServiceTest {
                 "0",
                 LocalDateTime.now().toString()
         );
-        //WHEN
+        // WHEN
 
         when(cacheClient.get(newItem.getItemId())).thenReturn(newItem);
         Item cacheItem = itemService.getItemByID(newItem.getItemId());
-        
-        // and THEN
+
+        // THEN
         Assertions.assertEquals(cacheItem.getItemId(),newItem.getItemId());
     }
 
@@ -153,7 +153,7 @@ public class ItemServiceTest {
 
         //WHEN and THEN
         Item nullItem = itemService.getItemByID(randomUUID().toString());
-        Assertions.assertNull(nullItem, "Item doesnt exist and should be null");
+        Assertions.assertNull(nullItem, "Item doesn't exist and should be null");
     }
 
     @Test
