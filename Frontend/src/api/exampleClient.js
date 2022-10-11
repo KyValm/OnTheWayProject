@@ -9,7 +9,7 @@ export default class ExampleClient extends BaseClass {
 
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', 'getPriorityList','getAllInventoryItems', 'updateItem', 'deleteByItemId', 'getItemById'];
+        const methodsToBind = ['clientLoaded', 'getPriorityList','getAllInventoryItems', 'updateItem', 'deleteByItemId', 'getItemById', 'getItemsByCategory'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -43,10 +43,10 @@ export default class ExampleClient extends BaseClass {
            this.handleError("getAllInventoryItems", error, errorCallback);
        }
    }
-
+   // may have to update and fix
    async getItemsByCategory(category, errorCallback) {
         try {
-            const response = await this.client.get('/item/itemCategory/${category}');
+            const response = await this.client.get('/item/itemCategory/' + category);
             return response.data;
         } catch (error) {
             this.handleError("getItemsByCategory", error, errorCallback);
@@ -71,7 +71,7 @@ export default class ExampleClient extends BaseClass {
 
     async deleteByItemId(itemId, errorCallback) {
         try {
-            const response = await this.client.delete('/item/delete/${itemId}');
+            const response = await this.client.delete('/item/delete/' + itemId);
             return response.data;
         } catch (error) {
             this.handleError("deleteItemById", error, errorCallback);
@@ -80,7 +80,7 @@ export default class ExampleClient extends BaseClass {
 
     async getItemById(itemId, errorCallback) {
         try {
-            const response = await this.client.get('/item/${itemId}');
+            const response = await this.client.get('/item/' + itemId);
             return response.data;
         } catch (error) {
             this.handleError("getItemById", error, errorCallback);

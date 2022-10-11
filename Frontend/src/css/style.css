@@ -113,7 +113,7 @@
 
 .home-container {
     width: 100%;
-    min-height: 100vh;
+    min-height: 110vh;
 }
 .home-text {
     font-size: xx-large;
@@ -224,7 +224,7 @@
 }
 
 html {
-    background-color: lightgrey;
+    background-color: whitesmoke;
 }
 
 body {
@@ -425,6 +425,8 @@ img {
     border: none;
     background: #f1f1f1;
 }
+
+
 .form-container .btn {
     background: linear-gradient(to bottom left, lightskyblue 40%, #FFC39E 100%);
     color: white;
