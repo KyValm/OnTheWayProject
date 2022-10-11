@@ -6,61 +6,97 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <div class="page" id="main">
-    <div>
-        <link href="css/style.css" rel="stylesheet" />
+    <h1 class="header-1">On The Way</h1>
+    <h2 class="home-text1">Inventory Management System</h2>
+    <h3>
+        <button type="submit" onclick="openSearchForm()" id="search"  class="home-button button">Search Item</button>
+        <button id="all-items" class="home-button1 button">Inventory</button>
+        <button id="all-priority-items" class="home-get-priority-items button">Priority Items</button>
+        <button id="get-items-by-category" onclick="openCategorySearchForm()" class="home-get-category button">Items by Category</button>
+        <button id="update-form-btn" onclick="openUpdateSearchForm()" class="home-get-category button">Update Item</button>
+    </h3>
+        <link href="css/style.css" rel="stylesheet"/>
         <div class="home-container">
-            <h1 class="home-text">On the Way</h1>
             <div class="home-separator"></div>
             <div class="home-separator1"></div>
-            <span class="home-text1">Inventory Management System</span>
-            <button type="submit" onclick="openSearchForm()" id="search"  class="home-button button">Search Item</button>
-            <button id="all-items" class="home-button1 button">Inventory</button>
-            <button id="all-priority-items" class="home-get-priority-items button">Priority Items</button>
         </div>
         <div class="form-popup" id="item-form">
             <form class="form-container" id="search-id-form">
                 <p class="form-field">
-                    <!--                <input hidden id="messageId" name="messageId" value="">-->
                     <label class="list1" for="item-id-id">Enter Item ID: </label>
                     <br>
-                    <input class="list1"  type="text" id="item-id-id" name="recipientName" placeholder="0000-140" required>
+                    <input class="list1"  type="text" id="item-id-id" placeholder=" ex: 000-1400" required>
                     <br>
                 </p>
-                <button type="submit" class="btn" id="search-id">Search</button>
+                <button type="button" class="btn" id="search-id">Search</button>
                 <button type="button" class="btn" onclick="closeSearchForm()">Cancel</button>
             </form>
-        </div>
     </div>
-        </div>
-        <div class="main">
-            <h1>Results: </h1>
-            <ul class="cards" id="allItemsToAdd">
-                <li class="cards_item">
-                    <div class="card">
-                        <div class="card_image"><img src="https://picsum.photos/500/300/?image=5"></div>
-                        <div class="card_content">
-                            <h2 class="card_title">${item.itemId}</h2>
-                            <p class="card_text">${item.description}</p>
-                            <p class="card_text">${item.currentQty}</p>
-                            <p class="card_text">${item.reorderQty}</p>
-                            <p class="card_text">${item.qtyTrigger}</p>
-                            <p class="card_text">${item.orderDate}</p>
-                            <button class="btn card_btn">Update</button>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
+
+    <div class="form-popup" id="item-form-category">
+        <form class="form-container" id="search-id-form-category">
+            <p class="form-field">
+                <label class="list1" for="item-id-category">Enter Category ID: </label>
+                <br>
+                <input class="list1"  type="text" id="item-id-category" placeholder=" ex: 000" required>
+                <br>
+            </p>
+            <button type="button" class="btn" id="search-id-category">Search</button>
+            <button type="button" class="btn" onclick="closeCategorySearchForm()">Cancel</button>
+        </form>
+    </div>
+
+    <div class="form-popup" id="item-update-form">
+        <form class="form-container" id="search-id-update-form">
+            <p class="form-field">
+                <label class="list1" for="item-update-id">Enter Item ID to Update: </label>
+                <br>
+                <input class="list1"  type="text" id="item-update-id" placeholder=" ex: 000-1400" required>
+                <br>
+            </p>
+            <button type="button" class="btn" id="search-update-id">Search</button>
+            <button type="button" class="btn" onclick="closeUpdateSearchForm()">Cancel</button>
+        </form>
+    </div>
+
+    <div class="main">
+        <h1>Results: </h1>
+        <ul class="cards" id="allItemsToAdd">
+        </ul>
+    </div>
+</div>
 <script>
 
     let popup = document.getElementById("item-form");
+    let categoryPopup = document.getElementById("item-form-category");
+    let updatePopup = document.getElementById("item-update-form");
 
     function openSearchForm() {
-        popup.classList.add("open-form-popup");
         document.getElementById("search-id-form").reset();
+        popup.classList.add("open-form-popup");
+        closeCategorySearchForm();
     }
     function closeSearchForm() {
       popup.classList.remove("open-form-popup");
+    }
+
+    function openCategorySearchForm() {
+        document.getElementById("search-id-form-category").reset();
+        categoryPopup.classList.add("open-form-popup");
+        closeSearchForm();
+    }
+    function closeCategorySearchForm() {
+        categoryPopup.classList.remove("open-form-popup");
+    }
+
+    function openUpdateSearchForm() {
+        document.getElementById("search-id-update-form").reset();
+        updatePopup.classList.add("open-form-popup");
+        closeSearchForm();
+        closeCategorySearchForm();
+    }
+    function closeUpdateSearchForm() {
+        updatePopup.classList.remove("open-form-popup");
     }
 
 </script>
