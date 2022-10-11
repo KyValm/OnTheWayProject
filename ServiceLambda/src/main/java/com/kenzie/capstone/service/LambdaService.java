@@ -25,7 +25,7 @@ public class LambdaService {
         this.itemDao = itemDao;
     }
 
-    public List<ItemData> getAllItemData() {
+    private List<ItemData> getAllItemData() {
         List<ItemRecord> records = itemDao.getAllItemData(); // calls DynamoDB
         if (records.size() == 0 || records == null) {
             return null;
@@ -87,15 +87,15 @@ public class LambdaService {
         return prioritizedList;
     }
 
-    public ExampleData setExampleData(String data) {
-        String id = UUID.randomUUID().toString();
-        ItemRecord record = itemDao.setExampleData(id, data);
-        return new ExampleData(id, data);
-    }
-
-    public ItemData getExampleData(String id) {
-        return null;
-    }
+//    public ExampleData setExampleData(String data) {
+//        String id = UUID.randomUUID().toString();
+//        ItemRecord record = itemDao.setExampleData(id, data);
+//        return new ExampleData(id, data);
+//    }
+//
+//    public ItemData getExampleData(String id) {
+//        return null;
+//    }
 
     private ItemData recordToItemData(ItemRecord records){
         return new ItemData(records.getItemId(),

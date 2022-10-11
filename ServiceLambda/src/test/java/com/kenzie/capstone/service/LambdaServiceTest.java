@@ -6,12 +6,15 @@ import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.model.ExampleRecord;
 import com.kenzie.capstone.service.model.ItemData;
 import com.kenzie.capstone.service.model.ItemRecord;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.ArgumentCaptor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -45,55 +48,36 @@ class LambdaServiceTest {
         //WHEN
     }
 
-//    @Test
-//    void setDataTest() {
-//        ArgumentCaptor<String> idCaptor = ArgumentCaptor.forClass(String.class);
-//        ArgumentCaptor<String> dataCaptor = ArgumentCaptor.forClass(String.class);
-//
-//        // GIVEN
-//        String data = "somedata";
-//
-//        // WHEN
-//        ExampleData response = this.lambdaService.setExampleData(data);
-//
-//        // THEN
-//        verify(exampleDao, times(1)).setExampleData(idCaptor.capture(), dataCaptor.capture());
-//
-//        assertNotNull(idCaptor.getValue(), "An ID is generated");
-//        assertEquals(data, dataCaptor.getValue(), "The data is saved");
-//
-//        assertNotNull(response, "A response is returned");
-//        assertEquals(idCaptor.getValue(), response.getId(), "The response id should match");
-//        assertEquals(data, response.getData(), "The response data should match");
-//    }
+    @Test
+    void getPriorityList_withUnsortedList_happyCase(){
+        // GIVEN
+        List<ItemRecord> itemRecordList = new ArrayList<>();
+        ItemRecord dontReorder = new ItemRecord();
+        dontReorder.setItemId("143");
+        dontReorder.setDescription("reorder Item");
+        dontReorder.setCurrentQty("143");
+        dontReorder.setReorderQty("100");
+        dontReorder.setQtyTrigger("100");
 
-//    @Test
-//    void getDataTest() {
-//        ArgumentCaptor<String> idCaptor = ArgumentCaptor.forClass(String.class);
-//
-//        // GIVEN
-//        String id = "fakeid";
-//        String data = "somedata";
-//        ExampleRecord record = new ExampleRecord();
-//        record.setId(id);
-//        record.setData(data);
-//
-//
-//        when(exampleDao.getExampleData(id)).thenReturn(Arrays.asList(record));
-//
-//        // WHEN
-//        ExampleData response = this.lambdaService.getExampleData(id);
-//
-//        // THEN
-//        verify(exampleDao, times(1)).getExampleData(idCaptor.capture());
-//
-//        assertEquals(id, idCaptor.getValue(), "The correct id is used");
-//
-//        assertNotNull(response, "A response is returned");
-//        assertEquals(id, response.getId(), "The response id should match");
-//        assertEquals(data, response.getData(), "The response data should match");
-//    }
+        ItemRecord reorder = new ItemRecord();
+        reorder.setItemId("456");
+        reorder.setDescription("reorder Item");
+        reorder.setCurrentQty("100");
+        reorder.setReorderQty("100");
+        reorder.setQtyTrigger("143");
 
-    // Write additional tests here
+        itemRecordList.add(dontReorder);
+        itemRecordList.add(reorder);
+
+        // WHEN
+
+        when(itemDao.getAllItemData()).thenReturn(itemRecordList);
+        List<ItemData> returnList = lambdaService.getPriorityList();
+
+        // THEN
+
+        Assertions.assertEquals(1, returnList.size());
+
+    }
 
 }
