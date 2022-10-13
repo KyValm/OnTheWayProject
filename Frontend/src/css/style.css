@@ -35,18 +35,69 @@
     --dl-space-space-oneandhalfunits: 24px;
 }
 
-.button {
-    color: var(--dl-color-gray-black);
-    border: none;
-    outline: none;
+.button-84 {
+    align-items: center;
+    background-color: initial;
+    background-image: linear-gradient(#464d55, #25292e);
+    border-radius: 8px;
+    border-width: 0;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .1), 0 3px 6px rgba(0, 0, 0, .05);
+    box-sizing: border-box;
+    color: #fff;
     cursor: pointer;
+    display: inline-flex;
+    flex-direction: column;
+    font-family: Helvetica, serif;
+    font-size: 15px;
+    height: 30px;
+    justify-content: center;
+    line-height: 1;
+    margin: 0;
+    outline: none;
     overflow: hidden;
+    padding: 0 32px;
+    text-align: center;
+    text-decoration: none;
+    transform: translate3d(0, 0, 0);
+    transition: all 150ms;
+    vertical-align: baseline;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-84:hover {
+    box-shadow: rgba(0, 1, 0, .2) 0 2px 8px;
+    opacity: .85;
+}
+
+.button-84:active {
+    outline: 0;
+}
+
+.button-84:focus {
+    box-shadow: rgba(0, 0, 0, .5) 0 0 0 3px;
+}
+
+@media (max-width: 420px) {
+    .button-84 {
+        height: 48px;
+    }
+}
+
+.button {
+    border: 2px solid black;
+    color: var(--dl-color-gray-black);
+    outline: black;
+    cursor: pointer;
     background-repeat: no-repeat;
     background-color: transparent;
-    font-weight: bolder;
-    font-family: ui-rounded;
-    font-size: large;
+    font-weight: bold;
+    font-family: Helvetica, serif;
+    font-size: medium;
 }
+
 .input {
     color: white;
     cursor: auto;
@@ -56,6 +107,7 @@
     border-radius: 4px;
     background-color: var(--dl-color-gray-white);
 }
+
 .textarea {
     color: white;
     cursor: auto;
@@ -65,6 +117,7 @@
     border-radius: 4px;
     background-color: var(--dl-color-gray-white);
 }
+
 .list {
     width: 100%;
     margin: 1em 0px 1em 0px;
@@ -73,48 +126,53 @@
     list-style-type: none;
     list-style-position: outside;
 }
+
 .list-item {
     display: list-item;
 }
+
 .teleport-show {
     display: flex !important;
 }
+
 .content {
     font-size: 16px;
-    font-family: Inter;
+    font-family: Helvetica, serif;
     font-weight: 400;
     line-height: 1.15;
     text-transform: none;
     text-decoration: none;
 }
+
 .heading {
     position: absolute;
     text-align: center;
     font-size: 32px;
-    font-family: Inter;
+    font-family: Helvetica, serif;
     font-weight: 700;
     line-height: 1.15;
     text-transform: none;
     text-decoration: none;
 }
 
-.heading-buttons{
-    align-content: center;
+.heading-buttons {
     width: 80%;
 }
+
 .header-1 {
     color: var(--dl-color-gray-black);
     font-size: xxx-large;
     top: 70px;
     position: relative;
     font-weight: bold;
-    font-family: Merriweather, serif;
+    font-family: Helvetica, serif;
 }
 
 .home-container {
     width: 100%;
     min-height: 110vh;
 }
+
 .home-text {
     font-size: xx-large;
     z-index: 100;
@@ -128,36 +186,35 @@
     text-transform: capitalize;
     max-width: 1200px;
 }
+
 .home-text1 {
     font-size: x-large;
     color: var(--dl-color-gray-black);
     top: 80px;
     position: relative;
-    font-family: Merriweather, serif;
+    font-family: Helvetica, serif;
     font-weight: lighter;
 }
 
 .home-button {
     top: 125px;
     position: relative;
-    border-color: #ffffff;
 }
+
 .home-get-priority-items {
     top: 125px;
     position: relative;
-    border-color: #ffffff;
-    padding-right: 10px;
 }
 
 .home-button1 {
     top: 125px;
     position: relative;
-    border-color: #ffffff;
 }
+
 .home-get-category {
     top: 125px;
     position: relative;
-    border-color: #ffffff;
+
 }
 
 .home-separator {
@@ -167,56 +224,33 @@
     height: 1px;
     position: absolute;
     align-self: flex-end;
-    background-color: var(--dl-color-gray-900);
-}
-.home-separator1 {
-    margin: 0 auto;
-    top: 283px;
-    left: 0px;
-    width: 100%;
-    height: 1px;
-    position: absolute;
-    align-self: flex-end;
-    background-color: var(--dl-color-gray-900);
+    background-color: black;
 }
 
-
-@media(max-width: 767px) {
+@media (max-width: 767px) {
     .home-separator {
         margin-top: var(--dl-space-space-oneandhalfunits);
         margin-bottom: var(--dl-space-space-oneandhalfunits);
     }
+
     .home-separator1 {
         margin-top: var(--dl-space-space-oneandhalfunits);
         margin-bottom: var(--dl-space-space-oneandhalfunits);
     }
 }
-@media(max-width: 479px) {
+
+@media (max-width: 479px) {
     .home-separator {
         margin-top: var(--dl-space-space-unit);
         margin-bottom: var(--dl-space-space-unit);
     }
+
     .home-separator1 {
         margin-top: var(--dl-space-space-unit);
         margin-bottom: var(--dl-space-space-unit);
     }
 }
 
-.table {
-    top: 400px;
-    left: 583px;
-    z-index: 100;
-    position: absolute;
-    align-self: center;
-    font-style: normal;
-    text-align: center;
-    font-family: Merriweather, serif;
-    font-weight: 300;
-    border-color: #ffffff;
-    border-width: 1px;
-    border-radius: var(--dl-radius-radius-radius4);
-    text-transform: capitalize;
-}
 *,
 *::before,
 *::after {
@@ -224,12 +258,12 @@
 }
 
 html {
-    background-color: whitesmoke;
+    background: linear-gradient(to bottom left, whitesmoke 5%, lightslategrey 100%);
 }
 
 body {
     color: #272727;
-    font-family: 'Quicksand', serif;
+    font-family: Helvetica, serif;
     font-style: normal;
     font-weight: 400;
     letter-spacing: 0;
@@ -245,7 +279,7 @@ body {
     justify-content: center;
 }
 
-.main{
+.main {
     top: -1000px;
     position: relative;
     max-width: 2000px;
@@ -266,12 +300,11 @@ img {
 .btn {
     font-weight: bold;
     color: black;
-    padding: 0.8rem;
-    font-size: 14px;
+    padding: .4rem;
+    font-size: 15px;
     text-transform: uppercase;
     border-radius: 4px;
     display: block;
-    width: 100%;
     cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.2);
     background: white;
@@ -279,6 +312,10 @@ img {
 
 .btn:hover {
     background-color: rgba(255, 255, 255, 0.12);
+}
+
+.button:hover {
+    background-color: lightskyblue;
 }
 
 .cards {
@@ -291,7 +328,7 @@ img {
 
 .cards_item {
     display: flex;
-    padding: 1rem;
+    padding: 4rem;
 }
 
 @media (min-width: 40rem) {
@@ -305,23 +342,26 @@ img {
         width: 33.3333%;
     }
 }
+
 .label {
     font-size: large;
     font-weight: bold;
     color: black;
+    font-family: helvetica, serif;
+    letter-spacing:  1px;
 }
 
 .card {
     background-color: white;
     border-radius: 0.25rem;
-    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 20px 40px -14px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
 .card_content {
-    padding: 1rem;
+    padding: .875rem;
     background: lightskyblue;
 }
 
@@ -329,6 +369,7 @@ img {
     color: black;
     font-size: 1.1rem;
     font-weight: 700;
+    font-family: Helvetica, serif;
     letter-spacing: 1px;
     text-transform: capitalize;
     margin: 0px;
@@ -341,11 +382,8 @@ img {
     margin-bottom: 1.25rem;
     font-weight: 400;
 }
-.made_by{
-    font-weight: 400;
-    font-size: 13px;
-    margin-top: 35px;
-    text-align: center;
+.card_image {
+    height: 90%;
 }
 
 .form-popup {
@@ -377,6 +415,7 @@ img {
     padding: 10px;
     background-color: white;
 }
+
 .form-container .btn:hover,
 .open-button:hover {
     opacity: 1;
@@ -388,9 +427,11 @@ img {
     cursor: pointer;
     font-size: 22px;
     font-weight: 500;
+    font-family: Helvetica, serif;
     border-radius: 30px;
     background: linear-gradient(to bottom left, lightskyblue 40%, #FFC39E 100%);
 }
+
 .form form input {
     width: 80%;
     display: block;
@@ -400,10 +441,13 @@ img {
     margin: 18px auto;
     outline: none;
 }
+
 .form .text h1 {
     text-align: center;
     margin: 10px 0;
+    font-family: Helvetica, serif;
 }
+
 .form form {
     display: block;
     margin: auto;
@@ -414,10 +458,12 @@ img {
     padding: 10px;
     background-color: white;
 }
+
 .form-container .btn:hover,
 .open-button:hover {
     opacity: 1;
 }
+
 .form-container input[type="text"] {
     width: 100%;
     padding: 15px;
@@ -430,6 +476,7 @@ img {
 .form-container .btn {
     background: linear-gradient(to bottom left, lightskyblue 40%, #FFC39E 100%);
     color: white;
+    font-family: Helvetica, serif;
     font-weight: bold;
     padding: 16px 20px;
     border: none;
@@ -458,6 +505,7 @@ img {
     display: block;
     margin: auto;
 }
+
 .page {
     position: relative;
     max-width: 1200px;
